@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://storyverse-reads.netlify.app/sitemap.xml

@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STORYVERSE — Clay 3D Stories</title>
+<meta name="description" content="STORYVERSE: original stories and novels in every mood, in a 3D clay-style reading space.">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self' https:; connect-src 'self' https://cxgtcopwwmjvcxqiojhc.supabase.co; object-src 'none'; base-uri 'none'; form-action 'self'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<script>if(window.top!==window.self){document.documentElement.style.display="none"}</script>
+<meta name="robots" content="index,follow">
+<meta property="og:site_name" content="STORYVERSE"><meta property="og:title" content="STORYVERSE"><meta property="og:description" content="Original stories to read and listen to."><meta property="og:type" content="website">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,600;0,800;1,600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F3E6DA;--cd:#FBF1E7;--lo:#d9c3ab;--hi:#fffaf2;--a1:#4E6BE8;--a1d:#3047b8;--a1l:#7b92f5;--a2:#F2677E;--a2d:#c23f58;--a2l:#f89aab;--tx:#4a3b33;
+--serif:"Fraunces",Georgia,serif;--sans:"Nunito",system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--tx);line-height:1.6;transition:background .5s,color .5s;min-height:100vh}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;border:none;cursor:pointer;color:inherit;background:none}
+h1,h2,h3{font-family:var(--serif);line-height:1.15}
+:focus-visible{outline:3px solid var(--a2);outline-offset:3px;border-radius:10px}
+.wrap{max-width:1100px;margin:0 auto;padding:0 18px}
+.cd{background:var(--cd);border-radius:28px;box-shadow:9px 9px 18px var(--lo),-7px -7px 16px var(--hi),inset 2px 2px 4px var(--hi);transition:background .5s,box-shadow .5s}
+.bt{display:inline-flex;align-items:center;gap:8px;font-weight:800;font-size:.9rem;color:#fff;padding:12px 22px;border-radius:24px;background:var(--a1);box-shadow:inset -4px -4px 8px var(--a1d),inset 4px 4px 8px var(--a1l),4px 4px 9px var(--lo);transition:transform .2s,background .5s}
+.bt:hover{transform:translateY(-2px)}.bt:active{transform:scale(.97)}
+.bt.alt{background:var(--a2);box-shadow:inset -4px -4px 8px var(--a2d),inset 4px 4px 8px var(--a2l),4px 4px 9px var(--lo)}
+.bt.soft{background:var(--cd);color:var(--tx);box-shadow:5px 5px 10px var(--lo),-4px -4px 9px var(--hi)}
+.ch{display:inline-block;font-size:.78rem;font-weight:800;color:#fff;padding:7px 14px;border-radius:18px;background:var(--a2);box-shadow:inset -2px -2px 5px var(--a2d),inset 2px 2px 5px var(--a2l),2px 2px 5px var(--lo)}
+.ch.q{background:var(--cd);color:var(--tx);box-shadow:3px 3px 7px var(--lo),-3px -3px 7px var(--hi)}
+/* top bar */
+header{position:sticky;top:0;z-index:50;padding:12px 0 8px;background:var(--bg);transition:background .5s}
+.top{display:flex;align-items:center;gap:12px}
+.brand{font-family:var(--serif);font-weight:800;font-size:1.35rem}.brand b{color:var(--a1)}
+.top .sp{flex:1}
+.cats{display:flex;gap:10px;overflow-x:auto;padding:12px 4px 14px;scrollbar-width:none}
+.cats::-webkit-scrollbar{display:none}
+.cats a{flex:none;font-weight:800;font-size:.82rem;padding:9px 16px;border-radius:20px;background:var(--cd);box-shadow:4px 4px 8px var(--lo),-3px -3px 7px var(--hi);transition:.25s}
+.cats a.on{background:var(--a1);color:#fff;box-shadow:inset -3px -3px 6px var(--a1d),inset 3px 3px 6px var(--a1l)}
+/* hero */
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:30px;align-items:center;padding:26px 0 40px}
+.kick{font-weight:800;font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--a2)}
+.hero h1{font-size:clamp(2.1rem,6vw,3.6rem);margin:8px 0 12px;font-weight:800}
+.hero p.lead{font-size:1.05rem;max-width:46ch;opacity:.85}
+.acts{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
+.stage{perspective:900px;display:flex;justify-content:center;padding:20px 0}
+.tilt{width:210px;height:290px;position:relative;transform-style:preserve-3d;transition:transform .15s ease-out}
+.tilt .base{position:absolute;inset:0;border-radius:30px;background:var(--a1);box-shadow:inset -8px -8px 16px var(--a1d),inset 8px 8px 16px var(--a1l),16px 20px 30px var(--lo)}
+.tilt .gl{position:absolute;left:0;right:0;top:36px;text-align:center;font-size:74px;color:#fff;transform:translateZ(70px);text-shadow:4px 6px 0 var(--a1d)}
+.tilt .tt{position:absolute;left:14px;right:14px;top:150px;text-align:center;font-family:var(--serif);font-weight:800;font-size:1.25rem;color:#fff;transform:translateZ(46px)}
+.tilt .au{position:absolute;left:0;right:0;bottom:20px;text-align:center;font-size:.72rem;letter-spacing:.14em;font-weight:800;color:#fff;opacity:.85;transform:translateZ(22px)}
+.tilt .orb{position:absolute;width:46px;height:46px;border-radius:50%;background:var(--a2);box-shadow:inset -4px -4px 8px var(--a2d),inset 4px 4px 8px var(--a2l);right:-14px;top:30px;transform:translateZ(90px)}
+.tilt .orb.b{width:30px;height:30px;left:-10px;top:auto;bottom:70px;right:auto;transform:translateZ(60px);background:#F6C445;box-shadow:inset -3px -3px 6px #c99a1d,inset 3px 3px 6px #fbe08a}
+/* sections */
+section.blk{padding:34px 0}
+.sh{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:6px}
+.sh h2{font-size:1.6rem}.sub{opacity:.75;font-size:.92rem;margin-bottom:18px}
+/* ring carousel */
+.ringwrap{perspective:1000px;height:230px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.ring{position:relative;width:104px;height:140px;transform-style:preserve-3d;animation:spin 26s linear infinite}
+.ringwrap:hover .ring,.ringwrap:active .ring{animation-play-state:paused}
+@keyframes spin{from{transform:rotateX(-6deg) rotateY(0)}to{transform:rotateX(-6deg) rotateY(360deg)}}
+.face{position:absolute;inset:0;border-radius:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:#fff;font-weight:800;font-size:.85rem;text-align:center;padding:8px;backface-visibility:hidden;background:var(--a1);box-shadow:inset -5px -5px 10px var(--a1d),inset 5px 5px 10px var(--a1l)}
+.face i{font-style:normal;font-size:2rem}
+/* 3D shelf */
+.shelf{display:flex;gap:26px;overflow-x:auto;padding:30px 20px 44px;perspective:900px;scrollbar-width:none;position:relative}
+.shelf::-webkit-scrollbar{display:none}
+.shelfwrap{position:relative}
+.shelfwrap::after{content:"";position:absolute;left:10px;right:10px;bottom:20px;height:16px;border-radius:10px;background:var(--cd);box-shadow:4px 4px 9px var(--lo),-3px -3px 8px var(--hi)}
+.bk{flex:none;width:92px;height:136px;position:relative;transform-style:preserve-3d;transform:rotateY(-32deg);transition:transform .5s;display:block;margin-right:8px}
+.bk:hover,.bk:focus-visible{transform:rotateY(-4deg) translateY(-12px)}
+.bk .f{position:absolute;inset:0;border-radius:6px 14px 14px 6px;background:var(--a1);color:#fff;padding:10px 8px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;font-family:var(--serif);font-weight:800;font-size:.8rem;box-shadow:inset -4px -4px 8px var(--a1d),inset 4px 4px 8px var(--a1l)}
+.bk .f i{font-style:normal;font-size:1.7rem;margin-bottom:6px}
+.bk .s{position:absolute;top:0;bottom:0;width:22px;right:-11px;transform:rotateY(90deg);background:var(--a1d);border-radius:0 6px 6px 0}
+.bkname{position:absolute;top:150px;left:0;width:110px;font-size:.72rem;font-weight:800;text-align:center;opacity:.8;transform:translateX(-8px)}
+/* cards */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:22px}
+.bcard{padding:16px;display:flex;gap:14px;align-items:center;transition:transform .25s}
+.bcard:hover{transform:translateY(-4px)}
+.mcv{width:78px;height:106px;flex:none;border-radius:20px;background:var(--a1);display:flex;align-items:center;justify-content:center;font-size:2rem;color:#fff;box-shadow:inset -4px -4px 8px var(--a1d),inset 4px 4px 8px var(--a1l),4px 4px 8px var(--lo)}
+.bcard h3{font-size:1.05rem}.meta{font-size:.8rem;opacity:.75}
+/* book */
+.det{display:grid;grid-template-columns:260px 1fr;gap:34px;padding:24px 0}
+.det .big{aspect-ratio:3/4;border-radius:34px;background:var(--a1);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;text-align:center;padding:20px;box-shadow:inset -10px -10px 20px var(--a1d),inset 10px 10px 20px var(--a1l),14px 18px 30px var(--lo)}
+.det .big i{font-style:normal;font-size:5rem}.det .big b{font-family:var(--serif);font-size:1.4rem}
+.chap{display:flex;align-items:center;gap:14px;padding:14px 18px;margin-top:14px}
+.chap .n{font-family:var(--serif);font-weight:800;color:var(--a2);font-size:1.2rem;min-width:30px}
+.chap .g{flex:1;font-weight:700}
+/* reader */
+.rd{max-width:720px;margin:0 auto;padding:10px 0 80px}
+.tools{display:flex;gap:10px;flex-wrap:wrap;padding:12px 16px;margin-bottom:22px;align-items:center}
+.tools .bt{padding:8px 14px;font-size:.8rem}
+.rbody{padding:30px 26px;font-family:var(--serif)}
+.rbody .cn{font-family:var(--sans);font-weight:800;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--a2)}
+.rbody h1{font-size:1.9rem;margin:6px 0 14px}
+.rbody p{margin:1em 0}
+.prog{position:fixed;top:0;left:0;height:5px;background:var(--a2);z-index:100;border-radius:0 4px 4px 0;width:0}
+.rnav{display:flex;justify-content:space-between;gap:10px;margin-top:26px;flex-wrap:wrap}
+/* modal / toast / foot */
+.mbg{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}.mbg.on{display:flex}
+.mbx{max-width:420px;width:100%;padding:30px;text-align:center}
+.toast{position:fixed;bottom:26px;left:50%;transform:translate(-50%,20px);background:var(--a1);color:#fff;padding:12px 22px;border-radius:24px;font-weight:800;font-size:.85rem;opacity:0;pointer-events:none;transition:.3s;z-index:300}.toast.on{opacity:1;transform:translate(-50%,0)}
+footer{padding:40px 0 50px;text-align:center;font-size:.82rem;opacity:.7}
+.note{font-size:.8rem;padding:14px 18px;margin-top:22px;opacity:.85}
+@media(max-width:800px){.hero,.det{grid-template-columns:1fr}.det .big{max-width:230px;margin:0 auto}.stage{order:-1}}
+@media(prefers-reduced-motion:reduce){.ring{animation:none}.tilt,.bk{transition:none}}
+/* admin + narration */
+.in{width:100%;padding:12px 14px;border:none;border-radius:16px;background:var(--bg);color:var(--tx);font:inherit;box-shadow:inset 3px 3px 7px var(--lo),inset -3px -3px 7px var(--hi);margin:6px 0 12px}
+textarea.in{resize:vertical;line-height:1.5}
+.lbl{display:block;font-weight:800;font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;opacity:.8}
+.switch{display:flex;gap:10px;align-items:center;font-weight:700;font-size:.9rem;margin:6px 0 14px}
+.switch input{accent-color:var(--a1);width:18px;height:18px}
+.arow{display:flex;align-items:center;gap:12px;padding:12px 16px;margin-top:12px;flex-wrap:wrap}
+.arow .g{flex:1;min-width:140px;font-weight:800}
+.arow .bt{padding:8px 14px;font-size:.78rem}
+.tp{display:none;padding:16px 18px;margin-bottom:18px}
+.tp.on{display:block}
+.tp .r{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:10px}
+.tp select{width:auto;flex:1;min-width:140px;margin:0}
+.tp input[type=range]{accent-color:var(--a1);flex:1;min-width:120px}
+.tp .st{font-size:.8rem;opacity:.8;margin-top:8px;min-height:1.2em}
+.rbody p.speaking{outline:2px solid var(--a2);outline-offset:6px;border-radius:8px;background:var(--hi)}
+.tp audio{width:100%;margin-top:10px}
+/* search, guide, pages */
+.srch{position:relative;padding-top:6px}
+.srch input{margin:0}
+.sug{position:absolute;left:0;right:0;top:100%;z-index:60;padding:8px;display:none;margin-top:6px}
+.sug.on{display:block}
+.sug a{display:flex;gap:10px;align-items:center;padding:10px 12px;border-radius:14px;font-weight:700;font-size:.88rem}
+.sug a:hover,.sug a:focus{background:var(--bg)}
+.fab{position:fixed;right:16px;bottom:calc(76px + env(safe-area-inset-bottom));z-index:120}
+.sgp{position:fixed;right:14px;bottom:134px;width:min(380px,calc(100vw - 28px));max-height:76vh;z-index:130;display:none;flex-direction:column;padding:14px}
+.sgp.on{display:flex}
+.sgh{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.sgm{overflow:auto;flex:1;min-height:120px;max-height:38vh;display:flex;flex-direction:column;gap:8px;padding:4px}
+.msg{padding:10px 14px;border-radius:18px;font-size:.88rem;max-width:92%;white-space:pre-wrap}
+.msg.u{align-self:flex-end;background:var(--a1);color:#fff}
+.msg.b{align-self:flex-start;background:var(--bg);box-shadow:inset 2px 2px 5px var(--lo),inset -2px -2px 5px var(--hi)}
+.msg .lk{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+.msg .lk a{padding:8px 12px;font-size:.78rem}
+.qr{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.qr button{font-size:.74rem;padding:6px 11px}
+.sgp form{display:flex;gap:8px;align-items:center}
+.sgp form .in{margin:0;flex:1}
+.sgp form .bt{padding:10px 16px}
+.sgn{font-size:.7rem;opacity:.7;margin-top:8px}
+.doc{max-width:760px;margin:0 auto;padding:28px 26px}
+.doc h1{font-size:2rem;margin-bottom:6px}.doc h2{font-size:1.15rem;margin:22px 0 6px}
+.doc p{margin:8px 0}
+.warn{font-size:.82rem;padding:12px 16px;margin:14px 0}
+</style>
+<link rel="canonical" href="https://storyverse-reads.netlify.app/"><meta property="og:url" content="https://storyverse-reads.netlify.app/"><script type="application/ld+json" id="ld0">{"@context": "https://schema.org", "@type": "WebSite", "name": "STORYVERSE", "url": "https://storyverse-reads.netlify.app/"}</script></head>
+<body>
+<div class="prog" id="prog"></div>
+<header><div class="wrap">
+  <div class="top"><a class="brand" href="#/home">STORY<b>VERSE</b></a><span class="sp"></span>
+    <a class="bt soft" href="#/library" style="padding:9px 16px">&#9825; Library</a></div>
+  <div class="srch"><input class="in" id="q" type="search" placeholder="Search stories or moods" aria-label="Search stories" autocomplete="off" maxlength="80"><div class="cd sug" id="sug" role="listbox"></div></div>
+  <nav class="cats" id="cats" aria-label="Categories"></nav>
+</div></header>
+<main id="app"><div style="max-width:900px;margin:0 auto;padding:20px"><h1>STORYVERSE</h1><p>Original stories to read and listen to, in every mood.</p><h2>Categories</h2><ul><li><a href="/category/casual/">Casual</a></li><li><a href="/category/romance/">Romance</a></li><li><a href="/category/business/">Business</a></li><li><a href="/category/sad/">Sad &amp; Healing</a></li><li><a href="/category/mystery/">Mystery &amp; Adventure</a></li></ul><h2>Stories</h2><ul><li><a href="/book/tuesday-tiffin/">The Tuesday Tiffin Club</a></li><li><a href="/book/monsoon-platform/">Monsoon at Platform Nine</a></li><li><a href="/book/sixth-floor/">The Sixth Floor Gamble</a></li><li><a href="/book/river-kept/">What the River Kept</a></li><li><a href="/book/last-lighthouse/">The Last Lighthouse of Kanyakumari</a></li><li><a href="/book/silent-city/">Letters from a Silent City</a></li></ul><p><a href="/blog/">Blog</a> · <a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a></p></div></main>
+<footer><div class="wrap">STORYVERSE &middot; original sample stories &middot; progress and favourites are saved in this browser only (demo) &middot; <a href="#/privacy" style="text-decoration:underline">Privacy</a> &middot; <a href="#/terms" style="text-decoration:underline">Terms</a> &middot; <a href="#/blog" style="text-decoration:underline">Blog</a> &middot; <a href="#/admin" style="text-decoration:underline">Admin</a></div></footer>
+<button class="bt fab" id="sgBtn" aria-label="Open the story guide" aria-expanded="false">✨ Story guide</button>
+<div class="cd sgp" id="sgP" role="dialog" aria-label="Story guide"><div class="sgh"><b>Story guide</b><button class="bt soft" id="sgX" aria-label="Close" style="padding:6px 12px">✕</button></div>
+<div class="sgm" id="sgM" aria-live="polite"></div>
+<div class="qr"><button class="bt soft" data-q="Surprise me">Surprise me</button><button class="bt soft" data-q="Something sad and healing">Sad and healing</button><button class="bt soft" data-q="Make me laugh">Make me laugh</button><button class="bt soft" data-q="Scroll to the shelf">Scroll to shelf</button></div>
+<form id="sgF"><input class="in" id="sgI" placeholder="How are you feeling?" maxlength="200" aria-label="Ask the story guide" autocomplete="off"><button class="bt" type="submit">Send</button></form>
+<div class="sgn">Suggestions run in your browser. Nothing is sent anywhere unless the site owner connects an AI service.</div></div>
+<div class="mbg" id="mbg"><div class="cd mbx" id="mbx"></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============ YOUR SETTINGS (edit these) ============ */
+const SITE_NAME="STORYVERSE";
+const CONTACT_EMAIL="hello@example.com";  /* shown in the Privacy Policy and Terms */
+const SUPABASE_URL="https://cxgtcopwwmjvcxqiojhc.supabase.co";                      /* for example https://abcdxyz.supabase.co . Leave empty for browser-only demo mode. */
+const SUPABASE_ANON_KEY="sb_publishable_8Oewc7trR1ofL0JNQmNe_Q_b6iqxXPb";                 /* the public "anon" key from Supabase. NEVER the service_role key. */
+const CLOUD=/^https:\/\/[a-z0-9-]+\.supabase\.co$/.test(SUPABASE_URL)&&SUPABASE_ANON_KEY.length>20;
+const BUILTIN_CATS=["casual","romance","mature","business","sad","mystery"];
+
+/* ============ THEMES (one per mood) ============ */
+const TH={
+candy:{bg:"#F3E6DA",cd:"#FBF1E7",lo:"#d9c3ab",hi:"#fffaf2",a1:"#4E6BE8",a1d:"#3047b8",a1l:"#7b92f5",a2:"#F2677E",a2d:"#c23f58",a2l:"#f89aab",tx:"#4a3b33"},
+nocturne:{bg:"#1B1925",cd:"#232133",lo:"#0b0a11",hi:"#302d44",a1:"#F32E35",a1d:"#a8161c",a1l:"#ff6a70",a2:"#4E50DE",a2d:"#2f31a8",a2l:"#7f81f0",tx:"#F4F1FA"},
+forest:{bg:"#10231A",cd:"#16301f",lo:"#050e09",hi:"#21402f",a1:"#C0282A",a1d:"#7d1011",a1l:"#e0615f",a2:"#3F8F6B",a2d:"#26664a",a2l:"#6cbf9a",tx:"#F1E9DC"},
+lav:{bg:"#EDE6F7",cd:"#F6F1FC",lo:"#cfc3e4",hi:"#ffffff",a1:"#8E7CE8",a1d:"#6150b8",a1l:"#b3a6f4",a2:"#F4A58A",a2d:"#c77a5e",a2l:"#f9c7b4",tx:"#3b3350"},
+mint:{bg:"#E3EFE6",cd:"#F1F8F2",lo:"#bdd2c2",hi:"#ffffff",a1:"#3FA37A",a1d:"#26775a",a1l:"#6fcba4",a2:"#F2B84B",a2d:"#c48a1f",a2l:"#f8d488",tx:"#24402f"}
+};
+const CATS={
+casual:{n:"Casual",t:"candy",g:"☺"},
+romance:{n:"Romance",t:"lav",g:"♥"},
+mature:{n:"Mature 18+",t:"nocturne",g:"☾"},
+business:{n:"Business",t:"forest",g:"◆"},
+sad:{n:"Sad & Healing",t:"mint",g:"☂"},
+mystery:{n:"Mystery & Adventure",t:"nocturne",g:"✦"}
+};
+function applyTheme(k){const t=TH[k]||TH.candy,r=document.documentElement.style;for(const p in t)r.setProperty("--"+p,t[p]);
+ document.querySelector('meta[name=theme-color]')||document.head.insertAdjacentHTML("beforeend",'<meta name="theme-color">');
+ document.querySelector('meta[name=theme-color]').content=t.bg}
+function tvars(k){const t=TH[k]||TH.candy;return `--a1:${t.a1};--a1d:${t.a1d};--a1l:${t.a1l};--a2:${t.a2};--a2d:${t.a2d};--a2l:${t.a2l}`}
+
+/* ============ ORIGINAL SAMPLE STORIES ============ */
+const SAMPLES=[
+{id:"tuesday-tiffin",cat:"casual",g:"❀",title:"The Tuesday Tiffin Club",author:"Zoya Ansari (sample)",status:"Ongoing",
+ desc:"Five strangers on the fourth floor of a Pune software office swap lunch boxes every Tuesday. By the third week they are swapping secrets too.",
+ ch:[
+ {t:"The Rule of Swapping",x:"The rule was Rishi's, and he had invented it purely to escape his mother's lauki.\n\nEvery Tuesday, anyone with a tiffin could drop it into the middle of the pantry table, and anyone else could take a different one. No complaints, no returns, no asking who cooked what. By 1 p.m. the table looked like a small, delicious casino.\n\nPriya from accounts drew a tiffin that smelled of coconut and curry leaves and nearly cried at her desk. Kabir from security drew her tuna sandwich and said, with great dignity, that he had never been so confused or so grateful."},
+ {t:"The Mystery Dabba",x:"In week three, a tiffin appeared that nobody owned. Steel, three layers, tied with a faded green ribbon.\n\nTop layer: jeera rice. Middle: dal so good it made two interns stop arguing about Kubernetes. Bottom layer: a note in careful handwriting that read, You all look like you need feeding. Sincerely, the cleaner on Floor 3.\n\nThe pantry went quiet. Then Kabir said what everyone was thinking: nobody in the building had ever learned her name. By Tuesday next, there were six new tiffins on the table and one chair pulled up at the end, with a place set for Sulochana-ji."},
+ {t:"A Seat at the End",x:"Sulochana-ji sat down at 1:03 p.m. with her hands folded as if the chair might bite.\n\n'I only cook extra,' she said. 'My husband used to eat four rotis. Now I still make four.'\n\nNobody laughed, and nobody pitied her either, which Rishi later said was the real miracle. Priya passed her the pickle. Kabir asked for the dal recipe and wrote it on his palm because he had no paper.\n\nThe club never got a name. But from then on, the pantry table had seven chairs, and the cleaner of Floor 3 was never again the last to be thanked."}]},
+{id:"monsoon-platform",cat:"romance",g:"♥",title:"Monsoon at Platform Nine",author:"Ananya Rao (sample)",status:"Ongoing",
+ desc:"Two commuters, one delayed local train, and a shared umbrella that neither of them can afford to return.",
+ ch:[
+ {t:"The Shared Umbrella",x:"The 6:42 to Dadar was cancelled, which was how Naina learned that the man with the blue umbrella had a laugh like a dropped steel plate: loud, clumsy and impossible to dislike.\n\n'You can stand under it,' he said. 'It is a big umbrella and I am a small person.'\n\nShe was not small and he was not either, and the umbrella was not big. They stood with their shoulders almost touching while the rain made Mumbai look like a watercolour somebody had left on a windowsill."},
+ {t:"Same Time, Platform Nine",x:"She told herself it was coincidence that she left home five minutes earlier on Wednesday. She told herself the same thing on Thursday.\n\nHis name was Dev. He taught mathematics to children who did not want it, and he carried a pocket notebook where he wrote problems he could not solve. On Friday he handed her a page. It said: If two people keep missing the same train on purpose, how many Fridays until one of them says so?\n\nNaina took the pen from his hand and wrote underneath: Today."},
+ {t:"The Return of the Umbrella",x:"The umbrella was never returned. It sat in her hallway, dripping onto the floor, a blue accusation.\n\nIn August, the monsoon broke early and the trains stopped for six hours. They waited at a tea stall, with strangers, with bad chai, with the whole city holding its breath.\n\n'Keep it,' Dev said, folding the umbrella into her hands. 'I think I'd rather keep walking you to the station.'\n\nShe laughed, a little too loudly, and realised with some alarm that she had started to sound like him."}]},
+{id:"velvet-hours",cat:"mature",g:"☾",title:"Velvet Hours",author:"Nikhil Sen (sample)",status:"Ongoing",mature:true,
+ desc:"A mature psychological drama about desire, ambition and the people who live on the quiet side of a marriage. Adult themes; no explicit content.",
+ ch:[
+ {t:"The Last Set",x:"The club closed its doors at two, but the pianist played until the last glass was washed.\n\nIsha had been coming on Thursdays for four months. Officially she was there for a client dinner that never happened; unofficially she was there because the music made her feel like someone had finally opened a window in a house she had been living in with the curtains drawn.\n\nHer husband thought she was at yoga. She had not done yoga in a year. The pianist, Armaan, never asked her name, only what she wanted to hear, and tonight she said, 'Something that sounds like a decision.'"},
+ {t:"What the House Knows",x:"Rohan was not a cruel man, which was the problem. Cruelty would have been simple.\n\nHe was courteous, punctual, and fluent in the language of schedules. He remembered her mother's birthday and forgot, always, to ask what she was thinking.\n\nThat Friday he left a business card on the kitchen counter: a divorce lawyer's, mislaid by a friend, he said. It sat there for two days like a small white knife. Isha did not touch it. Neither did he. The house, which knew everything, said nothing, and the silence in it grew thick as velvet."},
+ {t:"Midnight Arithmetic",x:"At midnight she did the arithmetic that adults do: what she owed, what she wanted, what it would cost her.\n\nThe account came out unbalanced no matter how she added it. Armaan was not the answer, she saw that clearly. He was the question she had avoided asking for eleven years.\n\nShe picked up her phone, then put it down, then picked it up again. Somewhere across the city a piano was being closed for the night. She understood, finally, that the choice in front of her was not between two men. It was between two versions of herself, and only one of them had been sleeping."}]},
+{id:"sixth-floor",cat:"business",g:"◆",title:"The Sixth Floor Gamble",author:"Karan Malhotra (sample)",status:"Ongoing",
+ desc:"A bootstrapped founder has ninety days of cash, one impossible client, and a board that wants a miracle by quarter-end.",
+ ch:[
+ {t:"Ninety Days of Cash",x:"Aarav Khanna had two numbers memorised: 14 and 90. Fourteen employees. Ninety days of cash.\n\nHis start-up, Ledgerly, rented half a floor above a dentist in Gurugram. On quiet nights you could hear the drill through the carpet, and Aarav had begun to feel that the building itself was trying to tell him something about root canals and runways.\n\nThe email arrived at 9:17 p.m. A national bank wanted a demo. Friday. Their head of procurement had one condition: no slides. Only the product, live, in front of a room that wanted it to fail."},
+ {t:"The Room That Wanted It To Fail",x:"The room had twelve people and zero smiles.\n\nAarav opened the laptop and did something he had never done in a pitch: he showed them a bug. A real one, in production, that had cost a customer forty thousand rupees the month before. Then he showed them how Ledgerly caught it in eleven seconds.\n\n'You are the first vendor,' said the procurement head, 'who has shown me his mistakes before my own.'\n\nOutside, in the lift, Aarav's hands began to shake. Trust, he thought, is just a bug you admit to before someone else finds it."},
+ {t:"Term Sheet",x:"The offer came on a Tuesday: a term sheet, three pages, two investors, one clause that would take forty percent of everything he had built.\n\nHis co-founder, Meher, read it twice and slid it back. 'We can survive without them,' she said. 'The question is whether we want to survive or win.'\n\nAarav looked at the whiteboard, where fourteen names were written in Meher's neat hand. Every person was a rent payment, a family, a quiet bet on him. He picked up the pen. Some decisions, he realised, are not made with spreadsheets. They are made with names."}]},
+{id:"river-kept",cat:"sad",g:"☂",title:"What the River Kept",author:"Meera Pillai (sample)",status:"Completed",
+ desc:"After her father's death, Lakshmi returns to a Kerala village to scatter his ashes and finds the river has been keeping things for her.",
+ ch:[
+ {t:"The Urn in the Auto",x:"Lakshmi carried her father in a brass urn on her lap, because the auto-rickshaw's seat had no safe place to put him.\n\nThe road to Kuttanad was a green argument between water and land. Banana leaves bowed at the windows. At a tea shop the owner asked, kindly, how many were travelling, and she said 'two' before she could stop herself.\n\nShe had flown eleven hours to do this one small thing, and every kilometre made it feel larger. Grief, she was learning, was not a wave. It was a landscape, and she was only now beginning to see how far it went."},
+ {t:"The Boat and the Boy",x:"A boy of about twelve rowed her out at dawn, because the village boatman had a fever and the boy had a stubborn jaw.\n\n'Appooppan used to bring me here,' he said, meaning her father, whom he had known as a grandfather to half the village. 'He taught me to read the water.'\n\nLakshmi looked at the boy, then at the river, then at her hands, and understood that her father had left a whole life here, a life she had skipped in her visits home. The river was not scattering him. It was returning him to the people who had loved him without her."},
+ {t:"What the River Kept",x:"She emptied the urn slowly, as if the river might change its mind.\n\nThe ash drifted, silver and then nothing. The boy stopped rowing. A kingfisher dove and came up with a small bright fish, and she laughed, shocked by her own laugh, which sounded exactly like her father's.\n\nThat evening the village fed her too much rice. She slept in the room with the blue window. In the morning, a stranger left a note under the door: He kept your letters. All of them. They are in the biscuit tin on the third shelf."}]},
+{id:"last-lighthouse",cat:"mystery",g:"◈",title:"The Last Lighthouse of Kanyakumari",author:"Arjun Mehta (sample)",status:"Completed",
+ desc:"A marine archaeologist returns to a decommissioned lighthouse to learn why three ships vanished in its final year of operation.",
+ ch:[
+ {t:"The Iron Door",x:"The monsoon had spent itself by the time Meera reached the tip of the subcontinent. Kanyakumari wore the aftermath well: wet granite shining like old coins, fishermen mending nets the colour of rust, and the sea on three sides arguing with itself about which direction to leave in.\n\nThe lighthouse stood where it had always stood, white as a fresh page. Its iron door was the same iron door from her grandfather's stories, with a wheel handle frozen mid-turn and a smell, even from ten paces away, of salt and cold lamp oil.\n\nShe had the keys. That was the strange part. Her mother had posted them with a note that said only: If you must go, go properly."},
+ {t:"Logbook, 1994",x:"The logbook was on the third shelf of the oil room, wrapped in a fisherman's oilskin as if it could still get wet.\n\nMeera sat on the bottom stair with her phone torch between her teeth and read her grandfather's handwriting for the first time in her life. It was small, slanted and infuriatingly calm. March 14th: Lamp trimmed. Visibility poor. The entry for March 15th was crossed out so hard the pen had torn the page.\n\nIt was only when she lowered the phone that she noticed the second staircase, the one that went down into the rock, where no lighthouse plan she had ever seen said a staircase should be."},
+ {t:"The Lamp Room",x:"Two hundred and twelve steps. She counted them the way her grandfather must have counted them, four thousand times a year, one honest step at a time.\n\nThe lamp room was smaller than she had imagined and brighter, the great lens throwing the morning sun back in fractured petals across the walls. In the centre, where the lamp should have been, stood a wooden crate stamped with the mark of a company that had dissolved the year she was born.\n\nWhatever her grandfather had kept in the light, he had kept it in plain sight. The best place to hide a secret, Meera thought, is where everyone expects the light to be."}]},
+{id:"silent-city",cat:"mystery",g:"❦",title:"Letters from a Silent City",author:"Dev Kapoor (sample)",status:"Ongoing",
+ desc:"In 1946 Shimla, a postal clerk inherits a sack of undelivered letters, all addressed to a street that burned down in 1932.",
+ ch:[
+ {t:"The Unentered Sack",x:"The sack was found behind the pigeonholes on a Tuesday, which was the day Habibullah had come to associate with discovery, disappointment, or both.\n\nIt was leather, officer's-issue, stamped with a registry mark three reorganisations out of date. Inside: one hundred and forty-one envelopes, none franked, all addressed in the same careful, backward-sloping hand to lanes and chowks the new municipal map had politely erased.\n\nHis supervisor said burn it. Habibullah said, with the mildness that had kept him employed through four regimes, that he would first make a list."},
+ {t:"Fire of '32",x:"The old fire map lived in the basement of the municipal library, under a sheet, in a drawer that stuck in the monsoon and sang in the winter.\n\nLaid flat, it showed Shimla as a body with its skin off: every lane a vein, every chowk a small dark heart. By the last lamp Habibullah had matched nine addresses. Every one lay inside the pale scar the 1932 fire had left across the lower town.\n\nHe folded the map carefully, the way one folds something that has been waiting fourteen years to be folded correctly."},
+ {t:"The Same Hand",x:"It took him a month to admit what the letters were. Not because the handwriting was hard to place, but because placing it meant everything else had to move.\n\nThe same hand addressed envelopes to a dhaba owner, to a schoolmistress, to a man recorded as having died in the fire, and to the postmaster who had signed the sack into storage.\n\nHe did not open a single letter. He had been a postal clerk for twenty-two years. Some thresholds, he believed, were not doors at all. They were the people standing in them."}]}
+];
+const byId=id=>BOOKS.find(b=>b.id===id);
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const LS=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}};
+const SV=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
+const SLUG=/^[a-z0-9-]{1,60}$/;
+let favs=(()=>{const a=LS("svc_favs",[]);return Array.isArray(a)?[...new Set(a.filter(x=>typeof x==="string"&&SLUG.test(x)))].slice(0,500):[]})(),
+prog=(()=>{const o=LS("svc_prog",{}),r={};if(o&&typeof o==="object")for(const k of Object.keys(o).slice(0,500)){const v=o[k];if(SLUG.test(k)&&v&&typeof v==="object"){const ch=Math.round(+v.ch),fr=+v.frac;if(ch>=1&&ch<=999)r[k]={ch,frac:fr>=0&&fr<=1?fr:0}}}return r})(),
+fs=Math.min(28,Math.max(15,Math.round(+LS("svc_fs",19))||19));
+const hasCat=k=>Object.prototype.hasOwnProperty.call(CATS,k);
+const clean=(x,n)=>String(x==null?"":x).replace(/[<>&"'`\\]/g,"").slice(0,n);
+(function(){const sc=LS("svc_cats",{});if(sc&&typeof sc==="object")for(const k of Object.keys(sc)){const c=sc[k];if(c&&TH[c.t]&&/^[a-z0-9-]{1,40}$/.test(k)&&!(k in Object.prototype)&&!hasCat(k))CATS[k]={n:clean(c.n,30)||k,t:c.t,g:clean(c.g,2)||"✿",custom:true}}})();
+let cloudLoading=CLOUD;
+let BOOKS=CLOUD?[]:((Array.isArray(LS("svc_lib",null))?LS("svc_lib",null):null)||JSON.parse(JSON.stringify(SAMPLES))).map(normBook).filter(b=>b.ch.length);
+function saveLib(){try{localStorage.setItem("svc_lib",JSON.stringify(BOOKS));return true}catch(e){toast("Storage is full. Remove a book or shorten the text.");return false}}
+function saveCats(){const c={};for(const k in CATS)if(CATS[k].custom)c[k]=CATS[k];SV("svc_cats",c)}
+function C(b){return hasCat(b.cat)?CATS[b.cat]:(CATS.casual||Object.values(CATS)[0])}
+function toast(m){const e=$("toast");e.textContent=m;e.classList.add("on");clearTimeout(e._t);e._t=setTimeout(()=>e.classList.remove("on"),2200)}
+
+/* ============ PIECES ============ */
+function shelfBook(b){return `<a class="bk" style="${tvars(C(b).t)}" href="#/book/${b.id}" aria-label="${esc(b.title)}"><div class="f"><i>${b.g||C(b).g}</i>${esc(b.title)}</div><div class="s"></div><span class="bkname">${C(b).n}</span></a>`}
+function card(b){return `<a class="cd bcard" style="${tvars(C(b).t)}" href="#/book/${b.id}"><div class="mcv">${b.g||C(b).g}</div><div><h3>${esc(b.title)}</h3><div class="meta">${esc(b.author)}</div><div class="meta" style="margin:4px 0 8px">${b.ch.length} chapters · ${b.status}</div><span class="ch">${C(b).n}</span></div></a>`}
+function catBar(active){$("cats").innerHTML=`<a href="#/home" class="${active==="home"?"on":""}">All</a>`+Object.entries(CATS).map(([k,c])=>`<a href="#/cat/${k}" class="${active===k?"on":""}">${c.g} ${c.n}</a>`).join("")}
+
+/* ============ VIEWS ============ */
+function vHome(){
+  if(cloudLoading)return LOADING;
+  const f=BOOKS.find(b=>b.featured&&b.published!==false)||BOOKS.find(b=>b.published!==false)||BOOKS[BOOKS.length-1];
+  if(!f)return `<div class="wrap"><section class="blk"><div class="cd mbx" style="margin:30px auto"><h2>No stories yet</h2><p style="margin:10px 0 18px">Add your first book from the admin panel.</p><a class="bt" href="#/admin">Open admin</a></div></section></div>`;
+  const NC=Object.keys(CATS).length,RAD=NC<3?128:Math.round(Math.max(128,58/Math.tan(Math.PI/NC)+22));
+  return `<div class="wrap">
+  <div class="hero">
+    <div><span class="kick">Featured · ${C(f).n}</span>
+      <h1>${esc(f.title)}</h1><p class="lead">${esc(f.desc)}</p>
+      <div class="acts"><a class="bt" href="#/read/${f.id}/1">Read now</a><a class="bt soft" href="#/book/${f.id}">Details</a></div></div>
+    <div class="stage" id="stage"><div class="tilt" id="tilt" style="${tvars(C(f).t)}"><div class="base"></div><div class="orb"></div><div class="orb b"></div><div class="gl">${f.g}</div><div class="tt">${esc(f.title)}</div><div class="au">STORYVERSE ORIGINAL</div></div></div>
+  </div>
+  <section class="blk"><div class="sh"><h2>Pick your mood</h2></div><p class="sub">Tap a floating tile. The whole site changes colour to match the mood.</p>
+    <div class="ringwrap"><div class="ring">${Object.entries(CATS).map(([k,c],i)=>`<a class="face" style="${tvars(c.t)};background:${(TH[c.t]||TH.candy).a1};transform:rotateY(${i*(360/NC)}deg) translateZ(${RAD}px)" href="#/cat/${k}"><i>${c.g}</i>${c.n}</a>`).join("")}</div></div></section>
+  <section class="blk"><div class="sh"><h2>On the shelf</h2></div><p class="sub">Every book is a little 3D object. Hover or tap to turn it toward you.</p>
+    <div class="shelfwrap"><div class="shelf">${BOOKS.map(shelfBook).join("")}</div></div></section>
+  <section class="blk"><div class="sh"><h2>All stories</h2></div><div class="grid">${BOOKS.map(card).join("")}</div>
+    <div class="cd note">More chapters and more novels in each category are added in stages. This build has ${BOOKS.length} stories and ${BOOKS.reduce((a,b)=>a+b.ch.length,0)} sample chapters, all original.</div></section></div>`}
+
+function vCat(k){
+  const c=hasCat(k)?CATS[k]:null;if(!c)return v404();
+  if(k==="mature"&&!LS("svc_18",false)) return gate(k);
+  const list=BOOKS.filter(b=>b.cat===k);
+  return `<div class="wrap"><section class="blk"><span class="kick">Category</span><h1 style="font-size:2.4rem;margin:6px 0 8px">${c.g} ${c.n}</h1>
+  <p class="sub">${list.length} stor${list.length===1?"y":"ies"} in this mood.</p>${list.length?"":`<div class="cd note">No stories here yet. Add one from the <a href="#/admin" style="text-decoration:underline">admin panel</a>.</div>`}
+  <div class="shelfwrap"><div class="shelf">${list.map(shelfBook).join("")}</div></div>
+  <div class="grid" style="margin-top:20px">${list.map(card).join("")}</div></section></div>`}
+
+function gate(k){return `<div class="wrap"><section class="blk"><div class="cd mbx" style="margin:30px auto"><h2 style="margin-bottom:10px">Mature stories</h2>
+  <p style="margin-bottom:18px">These stories contain adult themes such as relationships, desire and moral conflict. They are not explicit. Please confirm you are 18 or older.</p>
+  <div class="acts" style="justify-content:center"><button class="bt" onclick="SV('svc_18',true);route()">I am 18 or older</button><a class="bt soft" href="#/home">Go back</a></div></div></section></div>`}
+
+function vBook(id){
+  const b=byId(id);if(!b)return v404();
+  if((b.cat==="mature")&&!LS("svc_18",false))return gate("mature");
+  const fav=favs.includes(id),p=prog[id];
+  return `<div class="wrap"><a class="bt soft" href="#/cat/${b.cat}" style="margin-top:14px;padding:9px 16px">← ${C(b).n}</a>
+  <div class="det"><div class="big"><i>${b.g||C(b).g}</i><b>${esc(b.title)}</b><span style="font-size:.75rem;letter-spacing:.14em;margin-top:10px">${esc(b.author.replace(/\s*\(.*\)/,"").toUpperCase())}</span></div>
+  <div><span class="ch">${C(b).n}</span><h1 style="font-size:2.2rem;margin:12px 0 4px">${esc(b.title)}</h1><div class="meta">by ${esc(b.author)} · ${b.ch.length} chapters · ${b.status}</div>
+  <p style="margin:16px 0;max-width:58ch">${esc(b.desc)}</p>
+  <div class="acts"><a class="bt" href="#/read/${id}/${p?p.ch:1}">${p?"Continue reading":"Read now"}</a><button class="bt alt" onclick="toggleFav('${id}')">${fav?"♥ Saved":"♡ Save"}</button></div>
+  <h2 style="font-size:1.3rem;margin-top:30px">Chapters</h2>
+  ${b.ch.map((c,i)=>`<a class="cd chap" href="#/read/${id}/${i+1}"><span class="n">${String(i+1).padStart(2,"0")}</span><span class="g">${esc(c.t)}</span><span class="ch q">Read</span></a>`).join("")}
+  </div></div></div>`}
+
+function vRead(id,n){
+  const b=byId(id);if(!b)return v404();
+  if((b.cat==="mature")&&!LS("svc_18",false))return gate("mature");
+  const i=Math.min(b.ch.length-1,Math.max(0,(+n||1)-1)),c=b.ch[i];TT.book=id;TT.chi=i;
+  return `<div class="wrap"><div class="rd">
+  <div class="cd tools"><a class="bt soft" href="#/book/${id}">☰ Contents</a><button class="bt soft" onclick="fsz(-1)">A−</button><button class="bt soft" onclick="fsz(1)">A+</button><button class="bt alt" onclick="toggleFav('${id}',true)">${favs.includes(id)?"♥ Saved":"♡ Save"}</button><button class="bt" onclick="ttsOpen()">🔊 Listen</button></div>${ttsPanel(c)}
+  <article class="cd rbody" style="font-size:${fs}px;line-height:1.85"><div class="cn">${esc(b.title)} · Chapter ${i+1} of ${b.ch.length}</div><h1>${esc(c.t)}</h1>${c.x.split(/\n+/).map(p=>`<p class="para">${esc(p)}</p>`).join("")}</article>
+  <div class="rnav">${i>0?`<a class="bt soft" href="#/read/${id}/${i}">← ${esc(b.ch[i-1].t)}</a>`:`<a class="bt soft" href="#/book/${id}">← Book</a>`}
+  ${i<b.ch.length-1?`<a class="bt" href="#/read/${id}/${i+2}">${esc(b.ch[i+1].t)} →</a>`:`<a class="bt soft" href="#/cat/${b.cat}">More in ${C(b).n} →</a>`}</div></div></div>`}
+
+function vLibrary(){
+  const fb=favs.map(byId).filter(Boolean),pb=Object.keys(prog).map(byId).filter(Boolean);
+  return `<div class="wrap"><section class="blk"><h1 style="font-size:2.2rem;margin-bottom:18px">My Library</h1>
+  <h2 style="font-size:1.25rem;margin-bottom:12px">Continue reading</h2>${pb.length?`<div class="grid">${pb.map(card).join("")}</div>`:`<p class="sub">Open any story and your place is remembered automatically.</p>`}
+  <h2 style="font-size:1.25rem;margin:26px 0 12px">Saved</h2>${fb.length?`<div class="grid">${fb.map(card).join("")}</div>`:`<p class="sub">Tap Save on any book to keep it here.</p>`}</section></div>`}
+function v404(){return `<div class="wrap"><section class="blk"><div class="cd mbx" style="margin:30px auto"><h2>Page not found</h2><p style="margin:10px 0 18px">That page may have moved.</p><a class="bt" href="#/home">Go home</a></div></section></div>`}
+
+/* ============ ACTIONS ============ */
+function toggleFav(id,keep){const i=favs.indexOf(id);i>=0?favs.splice(i,1):favs.push(id);SV("svc_favs",favs);toast(i>=0?"Removed from library":"Saved to library ♥");const y=scrollY;route();if(keep)scrollTo(0,y)}
+function fsz(d){fs=Math.min(28,Math.max(15,fs+d));SV("svc_fs",fs);const y=scrollY;route();scrollTo(0,y)}
+function onScroll(){const h=document.documentElement,m=location.hash.match(/#\/read\/([\w-]+)\/(\d+)/),f=h.scrollTop/Math.max(1,h.scrollHeight-h.clientHeight);
+ $("prog").style.width=m?(f*100)+"%":"0";if(m&&f>.03){prog[m[1]]={ch:+m[2],frac:+f.toFixed(3)};SV("svc_prog",prog)}}
+function bindTilt(){const s=$("stage"),t=$("tilt");if(!s||!t)return;
+ const mv=e=>{const r=s.getBoundingClientRect(),p=e.touches?e.touches[0]:e,x=(p.clientX-r.left)/r.width-.5,y=(p.clientY-r.top)/r.height-.5;t.style.transform=`rotateY(${Math.round(x*46)}deg) rotateX(${Math.round(-y*36)}deg)`};
+ s.addEventListener("pointermove",mv);s.addEventListener("touchmove",mv,{passive:true});s.addEventListener("pointerleave",()=>t.style.transform="rotateY(-12deg) rotateX(6deg)");t.style.transform="rotateY(-12deg) rotateX(6deg)"}
+
+/* ============ ADMIN ============ */
+/* Browser-side rate limiter: returns 0 when the action is allowed, or the seconds to wait. It slows careless misuse only;
+   real protection is the server-side limit in ai-worker.js and your host's rate-limit rules. */
+const RL={};
+function rl(key,max,ms){const n=Date.now(),a=(RL[key]=(RL[key]||[]).filter(t=>n-t<ms));if(a.length>=max)return Math.ceil((ms-(n-a[0]))/1000);a.push(n);return 0}
+/* SHA-256 of the admin password. Make your own with:  python3 -c "import hashlib;print(hashlib.sha256(b'your long passphrase').hexdigest())"
+   This is still a browser-only check. Real admin protection needs a server login (Supabase). */
+const ADMIN_SHA256="240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9";
+let loginBusy=false;
+const THN={candy:"Candy (playful)",lav:"Lavender (romantic)",nocturne:"Nocturne (dark, bold)",forest:"Forest (rich, elegant)",mint:"Mint (calm)"};
+let adminOK=false,D=null;
+function slug(s){return String(s||"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"").slice(0,40)||"item"}
+function safeUrl(u){return /^(https?:\/\/[^\s"'<>]+|[\w\-./]+\.(mp3|m4a|wav|ogg))$/i.test(String(u||"").trim())?String(u).trim():""}
+function normBook(b){
+  const cat=hasCat(b&&b.cat)?b.cat:(hasCat("casual")?"casual":Object.keys(CATS)[0]);
+  const ch=(Array.isArray(b&&b.ch)?b.ch:[]).slice(0,300).map((c,i)=>({t:String((c&&c.t)||"Chapter "+(i+1)).slice(0,120),x:String((c&&c.x)||"").slice(0,200000),a:safeUrl(c&&c.a)})).filter(c=>c.x.trim());
+  return {id:slug((b&&b.id)||(b&&b.title)),cat,title:String((b&&b.title)||"Untitled").slice(0,140),author:String((b&&b.author)||"Unknown").slice(0,100),
+    desc:String((b&&b.desc)||"").slice(0,1200),status:(b&&b.status)==="Completed"?"Completed":"Ongoing",featured:!!(b&&b.featured),g:clean(b&&b.g,2),published:(b&&b.published)!==false,ch}}
+function uniqId(base){let id=slug(base),n=2;const t=id;while(BOOKS.some(b=>b.id===id))id=t+"-"+n++;return id}
+function splitChapters(txt){
+  const lines=String(txt).replace(/\r/g,"").split("\n"),out=[];let cur=null;
+  const re=/^\s*(?:#+\s*)?(?:chapter|ch\.?|अध्याय)\s*\d+\s*[:.\-–—]?\s*(.*)$/i;
+  for(const ln of lines){const m=ln.match(re);
+    if(m){cur={t:(m[1]||"").trim()||("Chapter "+(out.length+1)),x:"",a:""};out.push(cur)}
+    else{if(!cur){if(!ln.trim())continue;cur={t:"Chapter 1",x:"",a:""};out.push(cur)}cur.x+=ln+"\n"}}
+  out.forEach(c=>c.x=c.x.replace(/\n{3,}/g,"\n\n").trim());return out.filter(c=>c.x)}
+
+function vAdmin(){
+  if(!adminOK)return `<div class="wrap"><section class="blk"><div class="cd mbx" style="margin:30px auto"><h2 style="margin-bottom:10px">Admin sign in</h2>
+  <p class="meta" style="margin-bottom:14px">${CLOUD?"Sign in with your admin email and password.":"Demo mode (this browser only). Set up Supabase in the settings at the top of the code for a real admin login."}</p>
+  <form onsubmit="event.preventDefault();adminLogin(this)">${CLOUD?'<input class="in" type="email" placeholder="Admin email" aria-label="Admin email" autocomplete="username" required>':""}<input class="in" type="password" placeholder="Password" aria-label="Password" autocomplete="current-password" required>
+  <div class="acts" style="justify-content:center"><button class="bt" type="submit">Sign in</button></div></form></div></section></div>`;
+  if(D)return vEditor();
+  return `<div class="wrap"><section class="blk">
+  <div class="sh"><h1 style="font-size:2rem">Admin</h1><button class="bt soft" onclick="adminSignOut()">Sign out</button></div>
+  <div class="acts" style="margin:0 0 6px"><button class="bt" onclick="newBook()">+ Add a book</button><button class="bt soft" onclick="exportLib()">Download backup</button>
+    ${CLOUD?"":'<label class="bt soft" style="cursor:pointer">Restore backup<input type="file" accept=".json" hidden onchange="importLib(this)"></label>'}
+    ${CLOUD?"":'<button class="bt soft" onclick="resetLib()">Restore sample books</button>'}</div>
+  <p class="sub" style="margin-top:12px">${CLOUD?"Signed in as "+esc(SB.s?SB.s.email:"")+". Changes are saved to your database. ":"Demo mode: changes stay in this browser. "}Replace the samples by editing them or deleting them and adding real books. The colour theme follows the category you choose.</p>
+  <h2 style="font-size:1.25rem;margin:18px 0 4px">Books (${BOOKS.length})</h2>
+  ${BOOKS.map(b=>`<div class="cd arow" style="${tvars(C(b).t)}"><span class="mcv" style="width:44px;height:60px;font-size:1.2rem;border-radius:12px">${b.g||C(b).g}</span>
+    <span class="g">${esc(b.title)}<div class="meta">${esc(C(b).n)} · ${b.ch.length} chapter${b.ch.length===1?"":"s"}${b.featured?" · featured":""}${b.published===false?" · draft":""}</div></span>
+    <a class="bt soft" href="#/book/${b.id}">View</a><button class="bt soft" onclick="editBook('${b.id}')">Edit</button><button class="bt alt" onclick="delBook('${b.id}')">Delete</button></div>`).join("")||`<p class="sub">No books yet.</p>`}
+  <h2 style="font-size:1.25rem;margin:30px 0 4px">Categories</h2>
+  ${Object.entries(CATS).map(([k,c])=>`<div class="cd arow" style="${tvars(c.t)}"><span class="mcv" style="width:40px;height:40px;font-size:1.1rem;border-radius:50%">${esc(c.g)}</span>
+    <span class="g">${esc(c.n)}<div class="meta">${esc(THN[c.t]||c.t)} · ${BOOKS.filter(b=>b.cat===k).length} book(s)</div></span>
+    ${c.custom?`<button class="bt alt" onclick="delCat('${k}')">Delete</button>`:`<span class="meta">built in</span>`}</div>`).join("")}
+  <div class="cd" style="padding:18px;margin-top:14px"><div class="lbl">Add a category</div>
+    <input class="in" id="catName" placeholder="Category name, for example Thriller"><div class="r" style="display:flex;gap:10px;flex-wrap:wrap">
+    <select class="in" id="catTheme" style="flex:2;min-width:160px">${Object.keys(TH).map(k=>`<option value="${k}">${esc(THN[k]||k)}</option>`).join("")}</select>
+    <input class="in" id="catGlyph" placeholder="Symbol" maxlength="2" value="✿" style="flex:1;min-width:80px"></div>
+    <button class="bt" onclick="addCat()">Add category</button></div>
+  </section></div>`}
+
+function chEd(c,i){return `<div class="cd" style="padding:14px;margin:12px 0"><div class="lbl">Chapter ${i+1}</div>
+  <input class="in" placeholder="Chapter title" value="${esc(c.t)}" oninput="D.ch[${i}].t=this.value">
+  <textarea class="in" rows="8" placeholder="Paste the chapter text here. A blank line starts a new paragraph." oninput="D.ch[${i}].x=this.value">${esc(c.x)}</textarea>
+  <input class="in" placeholder="Optional: link to a recorded audio file (https://...mp3)" value="${esc(c.a||"")}" oninput="D.ch[${i}].a=this.value">
+  <button class="bt soft" onclick="rmCh(${i})">Remove chapter</button></div>`}
+function vEditor(){
+  return `<div class="wrap"><section class="blk"><h1 style="font-size:2rem;margin-bottom:14px">${D.isNew?"Add a new book":"Edit book"}</h1><div class="cd" style="padding:22px">
+  <label class="lbl">Title</label><input class="in" value="${esc(D.title)}" oninput="D.title=this.value">
+  <label class="lbl">Author</label><input class="in" value="${esc(D.author)}" oninput="D.author=this.value">
+  <label class="lbl">Category (its colour theme applies automatically)</label>
+  <select class="in" onchange="D.cat=this.value;applyTheme(CATS[D.cat].t)">${Object.entries(CATS).map(([k,c])=>`<option value="${k}" ${D.cat===k?"selected":""}>${esc(c.g)} ${esc(c.n)}</option>`).join("")}</select>
+  <label class="lbl">Status</label><select class="in" onchange="D.status=this.value">${["Ongoing","Completed"].map(s=>`<option ${D.status===s?"selected":""}>${s}</option>`).join("")}</select>
+  <label class="lbl">Short description</label><textarea class="in" rows="3" oninput="D.desc=this.value">${esc(D.desc)}</textarea>
+  <label class="switch"><input type="checkbox" ${D.featured?"checked":""} onchange="D.featured=this.checked"> Feature this book on the home page</label>
+  <label class="switch"><input type="checkbox" ${D.published!==false?"checked":""} onchange="D.published=this.checked"> Published (visible to everyone)</label>
+  <div class="cd note" style="margin-top:0">Quick import: choose a .txt file where each chapter starts with a line like <b>Chapter 1: Title</b>, and the chapters fill in below.
+    <input type="file" accept=".txt" onchange="loadTxt(this)" style="display:block;margin-top:8px"></div>
+  <h2 style="font-size:1.2rem;margin:18px 0 4px">Chapters</h2>${D.ch.map(chEd).join("")}
+  <button class="bt soft" onclick="addCh()">+ Add chapter</button>
+  <div class="acts"><button class="bt" onclick="saveBook()">Save book</button><button class="bt soft" onclick="D=null;route()">Cancel</button></div></div></section></div>`}
+
+async function adminLogin(f){
+  if(loginBusy)return;loginBusy=true;
+  try{const L=LS("svc_lock",{fails:0,until:0}),now=Date.now();
+    if(L.until>now){toast("Too many attempts. Try again in "+Math.ceil((L.until-now)/1000)+" seconds.");return}
+    let ok=false;
+    if(CLOUD){const em=((f.querySelector("input[type=email]")||{}).value||"").trim(),pw=f.querySelector("input[type=password]").value;
+      try{ok=await cloudLogin(em,pw)}catch(e){const m=String(e&&e.message||"Sign-in failed");if(/failed to fetch|network|load failed/i.test(m)){toast("Could not reach the database");ok=null}else ok=false}}
+    else{let h="";try{const buf=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(f.querySelector("input").value));h=[...new Uint8Array(buf)].map(x=>x.toString(16).padStart(2,"0")).join("")}catch(e){toast("Admin sign-in needs a secure (https) page");return}
+      ok=(h===ADMIN_SHA256)}
+    if(ok){SV("svc_lock",{fails:0,until:0});adminOK=true;route()}
+    else if(ok===false){const fails=(+L.fails||0)+1,wait=fails>=5?Math.min(900,30*Math.pow(2,fails-5)):0;SV("svc_lock",{fails,until:wait?now+wait*1000:0});toast(wait?"Too many attempts. Locked for "+wait+" seconds.":(CLOUD?"Wrong email or password, or not an admin account":"Wrong password"))}
+  }finally{loginBusy=false}}
+function newBook(){D={isNew:true,title:"",author:"",cat:CATS.casual?"casual":Object.keys(CATS)[0],status:"Ongoing",desc:"",featured:false,published:true,ch:[{t:"Chapter 1",x:"",a:""}]};route();applyTheme(CATS[D.cat].t)}
+function editBook(id){const b=BOOKS.find(x=>x.id===id);if(!b)return;D=JSON.parse(JSON.stringify(b));D.isNew=false;D.origId=id;route();applyTheme(C(D).t)}
+function addCh(){D.ch.push({t:"Chapter "+(D.ch.length+1),x:"",a:""});const y=scrollY;route();applyTheme(CATS[D.cat].t);scrollTo(0,y)}
+function rmCh(i){if(D.ch.length<2){toast("A book needs at least one chapter");return}D.ch.splice(i,1);const y=scrollY;route();applyTheme(CATS[D.cat].t);scrollTo(0,y)}
+function loadTxt(inp){const f=inp.files&&inp.files[0];if(!f)return;if(f.size>2000000){toast("That file is too large (2 MB maximum)");inp.value="";return}const r=new FileReader();r.onload=()=>{const ch=splitChapters(r.result);
+  if(!ch.length){toast("No text found in that file");return}D.ch=ch;if(!D.title)D.title=f.name.replace(/\.txt$/i,"");toast(ch.length+" chapter(s) imported");route();applyTheme(CATS[D.cat].t)};r.readAsText(f)}
+function saveBook(){
+  {const w=rl("save",15,60000);if(w){toast("Slow down: wait "+w+" seconds");return}if(D.isNew&&BOOKS.length>=300){toast("Library limit reached (300 books)");return}}
+  if(!D.title.trim()){toast("Add a title first");return}
+  if(!CATS[D.cat]){toast("Choose a category");return}
+  const b=normBook({...D,id:D.isNew?uniqId(D.title):D.origId});
+  if(!b.ch.length){toast("Add some chapter text first");return}
+  if(CLOUD){cloudSaveBook(b);return}
+  const before=JSON.stringify(BOOKS);
+  if(D.isNew)BOOKS.push(b);else BOOKS=BOOKS.map(x=>x.id===D.origId?b:x);
+  if(b.featured)BOOKS.forEach(x=>{if(x.id!==b.id)x.featured=false});
+  if(!saveLib()){BOOKS=JSON.parse(before);return}
+  D=null;toast("Saved. It now appears on the site.");route()}
+function delBook(id){const b=BOOKS.find(x=>x.id===id);if(!b||!confirm('Delete "'+b.title+'"? This cannot be undone.'))return;if(CLOUD){cloudDelBook(id);return}
+  BOOKS=BOOKS.filter(x=>x.id!==id);favs=favs.filter(x=>x!==id);delete prog[id];SV("svc_favs",favs);SV("svc_prog",prog);saveLib();toast("Book deleted");route()}
+function addCat(){const n=$("catName").value.trim();if(!n){toast("Enter a category name");return}if(Object.values(CATS).filter(c=>c.custom).length>=30){toast("Category limit reached");return}if(rl("cat",10,60000)){toast("Please wait a moment");return}
+  let k=slug(n);while(hasCat(k)||(k in Object.prototype))k+="-x";if(!TH[$("catTheme").value])return;CATS[k]={n:clean(n,30)||"New",t:$("catTheme").value,g:clean($("catGlyph").value,2)||"✿",custom:true};if(CLOUD){cloudCatAdd(k);return}saveCats();toast("Category added");route()}
+function delCat(k){if(BOOKS.some(b=>b.cat===k)){toast("Move or delete the books in this category first");return}
+  if(!confirm("Delete this category?"))return;if(CLOUD){cloudCatDel(k);return}delete CATS[k];saveCats();route()}
+function exportLib(){const blob=new Blob([JSON.stringify({books:BOOKS,blog:BLOG,legal:LEGAL,cats:Object.fromEntries(Object.entries(CATS).filter(([,c])=>c.custom))},null,1)],{type:"application/json"});
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="storyverse-backup.json";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),2000)}
+function importLib(inp){const f=inp.files&&inp.files[0];if(!f)return;if(f.size>3000000){toast("That file is too large (3 MB maximum)");inp.value="";return}const w=rl("import",3,60000);if(w){toast("Please wait "+w+" seconds");inp.value="";return}const r=new FileReader();r.onload=()=>{try{const j=JSON.parse(r.result);
+  if(j.cats&&typeof j.cats==="object")for(const k of Object.keys(j.cats).slice(0,50)){const c=j.cats[k];if(c&&TH[c.t]&&!(slug(k) in Object.prototype)&&!hasCat(slug(k)))CATS[slug(k)]={n:clean(c.n||k,30),t:c.t,g:clean(c.g||"✿",2)||"✿",custom:true}}
+  saveCats();const list=(j.books||[]).slice(0,300).map(normBook);if(!list.length)throw 0;const seen={};BOOKS=list.map(b=>{let id=slug(b.id),n=2;const t=id;while(seen[id])id=t+"-"+n++;seen[id]=1;b.id=id;return b});
+  saveLib();toast(BOOKS.length+" books restored");route()}catch(e){toast("That backup file could not be read")}};r.readAsText(f)}
+function resetLib(){if(!confirm("Replace your library with the original sample books?"))return;BOOKS=JSON.parse(JSON.stringify(SAMPLES));saveLib();toast("Samples restored");route()}
+
+/* ============ CLOUD MODE (Supabase: real admin login and shared library) ============ */
+const LOADING='<div class="wrap"><section class="blk"><div class="cd mbx" style="margin:30px auto"><h2>Loading stories…</h2></div></section></div>';
+const SB={s:null};
+try{const t=JSON.parse(sessionStorage.getItem("svc_sb")||"null");if(t&&/^[0-9a-f-]{36}$/i.test(String(t.uid))&&typeof t.access_token==="string"&&typeof t.refresh_token==="string")SB.s=t}catch(e){}
+async function sbToken(){
+  if(SB.s&&SB.s.exp-Date.now()<60000){
+    const r=await fetch(SUPABASE_URL+"/auth/v1/token?grant_type=refresh_token",{method:"POST",headers:{apikey:SUPABASE_ANON_KEY,"Content-Type":"application/json"},body:JSON.stringify({refresh_token:SB.s.refresh_token})});
+    const j=await r.json().catch(()=>({}));
+    if(!r.ok||!j.access_token){cloudLogout();throw new Error("Session expired. Sign in again.")}
+    SB.s={...SB.s,access_token:j.access_token,refresh_token:j.refresh_token||SB.s.refresh_token,exp:Date.now()+(+j.expires_in||3600)*1000};
+    try{sessionStorage.setItem("svc_sb",JSON.stringify(SB.s))}catch(e){}}
+  return SB.s?SB.s.access_token:SUPABASE_ANON_KEY}
+async function sbFetch(path,opt){opt=opt||{};
+  const tok=SB.s?await sbToken():SUPABASE_ANON_KEY;
+  const r=await fetch(SUPABASE_URL+path,{method:opt.method||"GET",headers:Object.assign({apikey:SUPABASE_ANON_KEY,Authorization:"Bearer "+tok,"Content-Type":"application/json"},opt.headers||{}),body:opt.body});
+  if(!r.ok){let m="";try{m=(await r.json()).message||""}catch(e){}throw new Error(m||"Request failed ("+r.status+")")}
+  const t=await r.text();return t?JSON.parse(t):null}
+function cloudLogout(){const t=SB.s&&SB.s.access_token;SB.s=null;adminOK=false;try{sessionStorage.removeItem("svc_sb")}catch(e){}
+  if(t)fetch(SUPABASE_URL+"/auth/v1/logout",{method:"POST",headers:{apikey:SUPABASE_ANON_KEY,Authorization:"Bearer "+t}}).catch(()=>{})}
+function adminSignOut(){if(CLOUD){cloudLogout();cloudLoad().catch(()=>{}).finally(()=>route())}else{adminOK=false;route()}}
+async function cloudLogin(email,pw){
+  const r=await fetch(SUPABASE_URL+"/auth/v1/token?grant_type=password",{method:"POST",headers:{apikey:SUPABASE_ANON_KEY,"Content-Type":"application/json"},body:JSON.stringify({email,password:pw})});
+  const j=await r.json().catch(()=>({}));
+  if(!r.ok)throw new Error(j.error_description||j.msg||j.message||"Sign-in failed");
+  if(!(j.user&&/^[0-9a-f-]{36}$/i.test(String(j.user.id)))||typeof j.access_token!=="string")throw new Error("Unexpected sign-in reply");
+  SB.s={access_token:j.access_token,refresh_token:String(j.refresh_token||""),exp:Date.now()+(+j.expires_in||3600)*1000,uid:j.user.id,email:String(j.user.email||"").slice(0,120)};
+  const p=await sbFetch("/rest/v1/profiles?select=role&id=eq."+SB.s.uid);
+  if(!(Array.isArray(p)&&p[0]&&p[0].role==="admin")){cloudLogout();return false}
+  try{sessionStorage.setItem("svc_sb",JSON.stringify(SB.s))}catch(e){}
+  await cloudLoad();return true}
+async function cloudLoad(){
+  const [cs,bs]=await Promise.all([
+    sbFetch("/rest/v1/categories?select=key,name,theme,glyph&order=key"),
+    sbFetch("/rest/v1/books?select=id,category,title,author,description,status,featured,published,chapters(n,title,body,audio_url)&order=created_at.asc&limit=300")]);
+  if(Array.isArray(cs)&&cs.length){
+    const next={};
+    cs.forEach(c=>{if(c&&/^[a-z0-9-]{1,40}$/.test(String(c.key))&&TH[c.theme]&&!(c.key in Object.prototype))next[c.key]={n:clean(c.name,30)||c.key,t:c.theme,g:clean(c.glyph,2)||"✿",custom:!BUILTIN_CATS.includes(c.key)}});
+    if(Object.keys(next).length){for(const k of Object.keys(CATS))delete CATS[k];Object.assign(CATS,next)}}
+  BOOKS=(Array.isArray(bs)?bs:[]).map(r=>normBook({id:r.id,cat:r.category,title:r.title,author:r.author,desc:r.description,status:r.status,featured:r.featured,published:r.published,
+    ch:(Array.isArray(r.chapters)?r.chapters:[]).slice().sort((a,b)=>a.n-b.n).map(c=>({t:c.title,x:c.body,a:c.audio_url}))})).filter(b=>b.ch.length)}
+async function cloudInit(){
+  try{if(SB.s){const p=await sbFetch("/rest/v1/profiles?select=role&id=eq."+SB.s.uid);adminOK=Array.isArray(p)&&!!p[0]&&p[0].role==="admin";if(!adminOK)cloudLogout()}
+    await cloudLoad()}
+  catch(e){toast("Could not reach the database");BOOKS=JSON.parse(JSON.stringify(SAMPLES)).map(normBook)}
+  finally{cloudLoading=false;route()}}
+async function cloudSaveBook(b){
+  try{toast("Saving…");const id=encodeURIComponent(b.id);
+    await sbFetch("/rest/v1/books?on_conflict=id",{method:"POST",headers:{Prefer:"resolution=merge-duplicates,return=minimal"},body:JSON.stringify([{id:b.id,category:b.cat,title:b.title,author:b.author,description:b.desc,status:b.status,featured:b.featured,published:b.published}])});
+    await sbFetch("/rest/v1/chapters?on_conflict=book_id,n",{method:"POST",headers:{Prefer:"resolution=merge-duplicates,return=minimal"},body:JSON.stringify(b.ch.map((c,i)=>({book_id:b.id,n:i+1,title:c.t,body:c.x,audio_url:/^https:\/\//.test(c.a)?c.a:null})))});
+    await sbFetch("/rest/v1/chapters?book_id=eq."+id+"&n=gt."+b.ch.length,{method:"DELETE",headers:{Prefer:"return=minimal"}});
+    if(b.featured)await sbFetch("/rest/v1/books?id=neq."+id,{method:"PATCH",headers:{Prefer:"return=minimal"},body:JSON.stringify({featured:false})});
+    D=null;await cloudLoad();toast("Saved to the database");route()}
+  catch(e){toast("Could not save: "+String(e.message).slice(0,80))}}
+async function cloudDelBook(id){
+  try{await sbFetch("/rest/v1/books?id=eq."+encodeURIComponent(id),{method:"DELETE",headers:{Prefer:"return=minimal"}});await cloudLoad();toast("Book deleted");route()}
+  catch(e){toast("Could not delete: "+String(e.message).slice(0,80))}}
+async function cloudCatAdd(k){
+  try{const c=CATS[k];await sbFetch("/rest/v1/categories",{method:"POST",headers:{Prefer:"return=minimal"},body:JSON.stringify([{key:k,name:c.n,theme:c.t,glyph:c.g,is_mature:false}])});toast("Category added");route()}
+  catch(e){delete CATS[k];toast("Could not add: "+String(e.message).slice(0,80));route()}}
+async function cloudCatDel(k){
+  try{await sbFetch("/rest/v1/categories?key=eq."+encodeURIComponent(k),{method:"DELETE",headers:{Prefer:"return=minimal"}});delete CATS[k];toast("Category deleted");route()}
+  catch(e){toast("Could not delete: "+String(e.message).slice(0,80))}}
+
+/* ============ NARRATION (mood voices) ============ */
+const MOOD={candy:{r:1.05,p:1.1,gap:300,n:"Lively and warm"},lav:{r:.9,p:1.15,gap:450,n:"Soft and romantic"},nocturne:{r:.84,p:.8,gap:600,n:"Dark and slow"},forest:{r:.98,p:.95,gap:380,n:"Steady and confident"},mint:{r:.8,p:.9,gap:750,n:"Gentle and sorrowful"}};
+const TT={on:false,paused:false,items:[],i:0,gen:0,tm:0,book:null,chi:0,auto:false,cfg:(()=>{const c=LS("svc_tts",{})||{},r=+c.rate;return{mood:(c.mood==="auto"||(typeof c.mood==="string"&&MOOD.hasOwnProperty(c.mood)))?c.mood:"auto",vname:typeof c.vname==="string"?c.vname.slice(0,120):"",rate:r>=0.6&&r<=1.4?r:1}})()};
+const HAS_TTS=typeof speechSynthesis!=="undefined"&&typeof SpeechSynthesisUtterance!=="undefined";
+function ttsPanel(c){
+  return `<div class="cd tp" id="ttsP"><div class="lbl">Listen to this chapter</div>
+  ${HAS_TTS?`<div class="r"><select class="in" id="ttsMood" aria-label="Voice mood" onchange="ttsSet('mood',this.value)"><option value="auto" ${TT.cfg.mood==="auto"?"selected":""}>Mood: match the story</option>${Object.entries(MOOD).map(([k,m])=>`<option value="${k}" ${TT.cfg.mood===k?"selected":""}>${esc(m.n)}</option>`).join("")}</select>
+  <select class="in" id="ttsVoice" aria-label="Voice" onchange="ttsSet('vname',this.value)"></select></div>
+  <div class="r"><span class="meta">Speed</span><input type="range" min="0.6" max="1.4" step="0.05" value="${TT.cfg.rate}" aria-label="Speed" oninput="ttsSet('rate',+this.value)">
+  <button class="bt" id="ttsPlay" onclick="ttsPlay()">▶ Play</button><button class="bt soft" onclick="ttsPause()">⏸ Pause</button><button class="bt soft" onclick="ttsStop()">⏹ Stop</button></div>
+  <div class="st" id="ttsSt" role="status"></div>`:`<p class="meta" style="margin-top:8px">This browser can't read text aloud. Try Chrome, Edge or Safari.</p>`}
+  ${c.a&&safeUrl(c.a)?`<div class="lbl" style="margin-top:14px">Recorded narration</div><audio controls preload="none" src="${esc(safeUrl(c.a))}"></audio>`:""}</div>`}
+function ttsSt(m){const e=$("ttsSt");if(e)e.textContent=m||""}
+function ttsVoices(){const sel=$("ttsVoice");if(!sel||!HAS_TTS)return;const b=byId(TT.book);if(!b)return;
+  const hi=/[ऀ-ॿ]/.test(b.ch[TT.chi].x),all=speechSynthesis.getVoices();
+  let list=all.filter(v=>v.lang.toLowerCase().startsWith(hi?"hi":"en"));if(!list.length)list=all;
+  list=list.slice().sort((a,b2)=>(b2.lang==="en-IN")-(a.lang==="en-IN")||a.name.localeCompare(b2.name));
+  sel.innerHTML=list.length?list.map(v=>`<option value="${esc(v.name)}" ${v.name===TT.cfg.vname?"selected":""}>${esc(v.name)} (${esc(v.lang)})</option>`).join(""):`<option value="">Default voice</option>`;
+  if(list.length&&!list.some(v=>v.name===TT.cfg.vname))TT.cfg.vname=list[0].name}
+if(HAS_TTS)speechSynthesis.onvoiceschanged=()=>ttsVoices();
+function ttsOpen(go){const p=$("ttsP");if(!p)return;if(go){p.classList.add("on")}else p.classList.toggle("on");ttsVoices();if(go)ttsPlay()}
+function ttsBuild(){const b=byId(TT.book),c=b&&b.ch[TT.chi];TT.items=[];if(!c)return;
+  c.x.split(/\n+/).forEach((p,pi)=>{const ss=p.match(/[^.!?।…]+[.!?।…]*["”']?\s*/g)||[p];ss.forEach((s,k)=>{s=s.trim();if(s)TT.items.push({s,pi,last:k===ss.length-1})})})}
+function ttsHl(pi){document.querySelectorAll(".rbody p.speaking").forEach(e=>e.classList.remove("speaking"));
+  const el=document.querySelectorAll(".rbody p.para")[pi];if(el){el.classList.add("speaking");el.scrollIntoView({block:"center",behavior:"smooth"})}}
+function ttsSpeak(){
+  if(!TT.on)return;if(TT.i>=TT.items.length){ttsDone();return}
+  const it=TT.items[TT.i],b=byId(TT.book);if(!b){ttsStop(true);return}
+  const base=MOOD[C(b).t]||MOOD.candy,m=TT.cfg.mood==="auto"?base:(MOOD[TT.cfg.mood]||base),gen=TT.gen;
+  const u=new SpeechSynthesisUtterance(it.s);let r=m.r*TT.cfg.rate,p=m.p;
+  if(/^["“'‘]/.test(it.s)){p+=.12;r+=.03}
+  if(/\?["”']?$/.test(it.s))p+=.1;
+  if(/!["”']?$/.test(it.s)){r+=.08;p+=.08}
+  if(/(…|\.\.\.)["”']?$/.test(it.s))r-=.08;
+  u.rate=Math.min(2,Math.max(.5,r));u.pitch=Math.min(2,Math.max(.1,p));
+  const v=speechSynthesis.getVoices().find(x=>x.name===TT.cfg.vname);
+  if(v){u.voice=v;u.lang=v.lang}else if(/[ऀ-ॿ]/.test(it.s))u.lang="hi-IN";
+  ttsHl(it.pi);
+  u.onend=()=>{if(gen!==TT.gen||!TT.on)return;const gap=it.last?m.gap:90;TT.i++;TT.tm=setTimeout(ttsSpeak,gap)};
+  u.onerror=e=>{if(gen!==TT.gen)return;if(e.error==="interrupted"||e.error==="canceled")return;TT.i++;ttsSpeak()};
+  speechSynthesis.speak(u)}
+function ttsPlay(){if(!HAS_TTS){ttsSt("Read-aloud is not supported in this browser.");return}
+  if(TT.on)return;if(!TT.items.length||!TT.paused){ttsBuild();TT.i=0}
+  if(!TT.items.length){ttsSt("Nothing to read.");return}
+  TT.on=true;TT.paused=false;TT.gen++;speechSynthesis.cancel();ttsSt("Reading…");const b=$("ttsPlay");if(b)b.textContent="▶ Play";setTimeout(ttsSpeak,80)}
+function ttsPause(){if(!TT.on)return;TT.gen++;TT.on=false;TT.paused=true;clearTimeout(TT.tm);speechSynthesis.cancel();ttsSt("Paused. Press Play to continue.");const b=$("ttsPlay");if(b)b.textContent="▶ Resume"}
+function ttsStop(silent){TT.gen++;TT.on=false;TT.paused=false;TT.i=0;TT.items=[];clearTimeout(TT.tm);try{if(HAS_TTS)speechSynthesis.cancel()}catch(e){}
+  document.querySelectorAll(".rbody p.speaking").forEach(e=>e.classList.remove("speaking"));if(!silent){ttsSt("Stopped.");const b=$("ttsPlay");if(b)b.textContent="▶ Play"}}
+function ttsDone(){const b=byId(TT.book);TT.on=false;if(b&&TT.chi<b.ch.length-1){TT.auto=true;ttsSt("Next chapter…");location.hash="#/read/"+b.id+"/"+(TT.chi+2)}else{ttsSt("The end. Thank you for listening.");const x=$("ttsPlay");if(x)x.textContent="▶ Play"}}
+function ttsSet(k,v){TT.cfg[k]=v;SV("svc_tts",TT.cfg);if(TT.on){TT.gen++;clearTimeout(TT.tm);speechSynthesis.cancel();TT.on=true;ttsSpeak()}}
+
+/* ============ SITE PAGES: legal, blog ============ */
+const UPDATED="25 October 2026";
+const LEGAL={
+privacy:{title:"Privacy Policy",desc:"How STORYVERSE handles your data: what stays on your device, what third parties see, and your rights.",sec:[
+["Who we are",SITE_NAME+" is a reading and listening site for original stories. Contact: "+CONTACT_EMAIL+" (replace with your real address before launch)."],
+["What we store today","Your reading progress, saved books, text size, voice settings and 18+ confirmation are saved in your own browser (local storage). That data stays on your device and is not sent to us. Clearing your browser data removes it."],
+["If accounts are added","When sign-in is enabled we will store your email address, your library and your reading progress so they follow you between devices. Payments, if offered, are handled by a payment provider; we never see your card details."],
+["Third parties","Fonts load from Google Fonts, which means your IP address is shared with Google when a page opens. Read-aloud uses voices on your device or browser; some browsers send the text to their own speech service. If the optional AI story guide is connected to an AI service, the message you type is sent to that service to produce suggestions, so do not type personal information. Our hosting provider keeps standard server logs."],
+["Cookies","We do not set advertising or tracking cookies. If we add analytics later we will use a privacy-friendly tool and update this page."],
+["Your rights","You can ask us to show, correct or delete the personal data we hold about you, or withdraw consent, by emailing "+CONTACT_EMAIL+". We follow applicable laws such as India's Digital Personal Data Protection Act, 2023 and, where relevant, the GDPR."],
+["Children","The Mature section is for adults aged 18 and over. The rest of the site is intended for general audiences, and we do not knowingly collect personal data from children."],
+["Security and retention","We use reasonable safeguards, but no system is perfectly secure. We keep personal data only as long as needed for the purposes above."],
+["Changes","We may update this policy. The date at the top shows the latest version."]]},
+terms:{title:"Terms and Conditions",desc:"The rules for using STORYVERSE: content, copyright, mature stories, accounts and liability.",sec:[
+["Using the site","By using "+SITE_NAME+" you agree to these terms. Use the site for personal, non-commercial reading and listening, and do not misuse it or try to break or overload it."],
+["Content and copyright","Stories, text, covers and recordings belong to their authors or to "+SITE_NAME+". You may not copy, republish, scrape, record, sell or use the content to train AI systems without written permission."],
+["Mature stories","The Mature section contains adult themes and is for readers aged 18 and over. By confirming your age you state that you are an adult in your country."],
+["Accounts and submissions","If accounts are added, you are responsible for your login. If you submit a story you confirm it is your original work, you grant us permission to publish it on the site, and you accept that we may edit formatting, decline or remove it."],
+["Paid plans","If paid plans are introduced, their price, billing period and refund rules will be shown clearly before you pay."],
+["Voices and AI suggestions","Read-aloud voices are computer generated and may mispronounce words. The story guide may give inaccurate suggestions. Neither is professional advice."],
+["Copyright complaints","If you believe content on the site infringes your rights, email "+CONTACT_EMAIL+" with the work, proof of ownership and the page address. We review valid requests promptly and remove content where appropriate."],
+["Disclaimer and liability","The site is provided as is. To the extent allowed by law, we are not liable for indirect or consequential losses arising from your use of the site."],
+["Governing law","These terms are governed by the laws of India, and the courts of your chosen city (fill in before launch) have jurisdiction."],
+["Changes and contact","We may update these terms. Questions: "+CONTACT_EMAIL+"."]]}
+};
+const BLOG=[
+{id:"read-more-every-day",title:"Five small habits that help you read more",date:"2026-10-25",desc:"You do not need more time. You need a better first page.",body:[
+"Most people do not stop reading because they are busy. They stop because opening a book feels like a big decision. Make it small instead.",
+"Keep one story open all the time, so the next page is always one tap away. Read at the same moment each day, such as the first ten minutes after dinner. Use the bookmark, and stop in the middle of a scene so tomorrow starts with curiosity.",
+"On days you are tired, switch to listening. A story that you hear while cooking or walking still counts. The goal is the habit, not the format."]},
+{id:"why-we-added-voices",title:"Why every story can now be heard",date:"2026-10-25",desc:"Sometimes your eyes are tired but your imagination is not.",body:[
+"We added read-aloud so stories can follow you into the kitchen, the bus and the late evening. The voice changes its pace and pitch with the mood of the category, slower and lower for dark stories, warmer and lighter for cosy ones.",
+"The voices come from your device, so they vary from phone to phone. When a story has a recorded narration we show a normal audio player instead."]},
+{id:"pick-a-story-by-mood",title:"How to pick your next story by mood",date:"2026-10-25",desc:"Start with how you feel, not with the cover.",body:[
+"Feeling light? Try something casual and funny. Missing someone? Romance will keep you company. Carrying something heavy? A gentle story about loss and healing can help it settle.",
+"If you do not know what you want, ask the story guide. Tell it how you feel in a few words and it will suggest three stories to start with."]}
+];
+const byBlog=id=>BLOG.find(p=>p.id===id);
+function vLegal(k){const d=LEGAL[k];if(!d)return v404();
+  return `<div class="wrap"><div class="cd doc"><h1>${esc(d.title)}</h1><div class="meta">Last updated: ${UPDATED}</div>
+  <div class="cd warn">This is a template written for a prototype. Have a qualified lawyer review it and fill in your real details before you launch.</div>
+  ${d.sec.map(([h,t])=>`<h2>${esc(h)}</h2><p>${esc(t)}</p>`).join("")}</div></div>`}
+function vBlog(){return `<div class="wrap"><section class="blk"><span class="kick">Blog</span><h1 style="font-size:2.3rem;margin:6px 0 16px">Short reads about reading</h1>
+  <div class="grid">${BLOG.map(p=>`<a class="cd bcard" href="#/blog/${p.id}" style="display:block"><h3>${esc(p.title)}</h3><div class="meta" style="margin:6px 0">${p.date}</div><p style="font-size:.9rem">${esc(p.desc)}</p></a>`).join("")}</div></section></div>`}
+function vPost(id){const p=byBlog(id);if(!p)return v404();
+  return `<div class="wrap"><article class="cd doc"><a class="bt soft" href="#/blog" style="padding:8px 14px;font-size:.8rem;margin-bottom:14px">← Blog</a><h1>${esc(p.title)}</h1><div class="meta">${p.date}</div>${p.body.map(x=>`<p style="margin:14px 0">${esc(x)}</p>`).join("")}</article></div>`}
+
+/* ============ SEARCH ============ */
+const openMature=()=>LS("svc_18",false);
+function searchBooks(q){q=String(q||"").toLowerCase().trim();if(!q)return[];
+  return BOOKS.filter(b=>(b.cat!=="mature"||openMature())&&(b.title+" "+b.author+" "+b.desc+" "+C(b).n).toLowerCase().includes(q))}
+function safeDec(x){try{return decodeURIComponent(x)}catch(e){return ""}}
+function vSearch(q){const r=searchBooks(q);
+  return `<div class="wrap"><section class="blk"><h1 style="font-size:2rem;margin-bottom:6px">Search</h1><p class="sub">${r.length} result${r.length===1?"":"s"} for “${esc(q)}”</p>
+  ${r.length?`<div class="grid">${r.map(card).join("")}</div>`:`<div class="cd note">Nothing matched. Try a mood such as “sad”, or ask the story guide.</div>`}</section></div>`}
+(function(){const q=$("q"),box=$("sug");if(!q||!box)return;let t=0;
+  function show(){const v=q.value.trim().toLowerCase();if(v.length<1){box.classList.remove("on");box.innerHTML="";return}
+    const cats=Object.entries(CATS).filter(([k,c])=>c.n.toLowerCase().includes(v)&&(k!=="mature"||openMature())).slice(0,3);
+    const bks=searchBooks(v).slice(0,5);
+    box.innerHTML=cats.map(([k,c])=>`<a href="#/cat/${k}">${c.g} ${c.n} <span class="meta">category</span></a>`).join("")+bks.map(b=>`<a href="#/book/${b.id}">${b.g||C(b).g} ${esc(b.title)} <span class="meta">${esc(C(b).n)}</span></a>`).join("")+
+      `<a href="#/search/${encodeURIComponent(q.value.trim())}">🔎 See all results for “${esc(q.value.trim())}”</a>`;box.classList.add("on")}
+  q.addEventListener("input",show);q.addEventListener("focus",show);
+  q.addEventListener("keydown",e=>{if(e.key==="Enter"&&q.value.trim()){e.preventDefault();location.hash="#/search/"+encodeURIComponent(q.value.trim());box.classList.remove("on");q.blur()}if(e.key==="Escape")box.classList.remove("on")});
+  box.addEventListener("click",()=>{setTimeout(()=>{box.classList.remove("on");q.value=""},50)});
+  document.addEventListener("click",e=>{if(!e.target.closest(".srch"))box.classList.remove("on")})})();
+
+/* ============ STORY GUIDE (assistant) ============ */
+/* To use a real LLM, deploy ai-worker.js (see DEPLOY_GUIDE.md) and put its address here. Leave empty to use the built-in suggestions.
+   When you set it, run build_seo.py: it adds this address to the page security policy automatically. */
+const AI_ENDPOINT="";
+let pendScroll=null;
+const MOODS=[[/sad|cry|grief|loss|lonely|miss|heal|heartbreak|emotional|tear|mourn/,"sad"],[/love|romanc|crush|date|couple|heart|wedding|kiss/,"romance"],[/funny|laugh|light|cozy|cosy|comed|friend|office|chill|casual|relax|happy/,"casual"],[/business|startup|money|founder|career|ambition|invest|boss|company/,"business"],[/myster|crime|detective|secret|adventur|thrill|suspense|treasure|clue|puzzle/,"mystery"],[/mature|adult|dark|desire|affair|intense|18/,"mature"]];
+const STOP=new Set("the a an and or to of for me i want some something story stories book books read give show suggest recommend with about that like is in on my please can you".split(" "));
+const SCROLLS={top:null,bottom:null,shelf:".shelfwrap",stories:".grid",moods:".ringwrap",mood:".ringwrap",carousel:".ringwrap"};
+function sgAdd(role,text,links){const m=$("sgM");if(!m)return;const d=document.createElement("div");d.className="msg "+(role==="u"?"u":"b");d.textContent=text;
+  if(links&&links.length){const l=document.createElement("div");l.className="lk";links.forEach(x=>{const a=document.createElement("a");a.className="bt soft";a.href=x.h;a.textContent=x.t;a.addEventListener("click",()=>{if(innerWidth<600)$("sgP").classList.remove("on")});l.appendChild(a)});d.appendChild(l)}
+  m.appendChild(d);m.scrollTop=m.scrollHeight}
+function sgScore(b,words,cats){let sc=0;const hay=(b.title+" "+b.desc+" "+C(b).n).toLowerCase();words.forEach(w=>{if(hay.includes(w))sc+=2});if(cats.includes(b.cat))sc+=5;return sc}
+function sgLocal(msg){
+  const lo=msg.toLowerCase(),ok=b=>b.cat!=="mature"||openMature();
+  const sm=lo.match(/\b(top|bottom|shelf|stories|moods?|carousel)\b/);
+  if(/\b(scroll|jump|go down|go up)\b/.test(lo)&&sm){const k=sm[1];if(!SCROLLS[k]){scrollTo({top:k==="top"?0:document.body.scrollHeight,behavior:"smooth"});return{text:"Scrolled to the "+k+"."}}
+    const sel=SCROLLS[k];if(document.querySelector(sel)){document.querySelector(sel).scrollIntoView({behavior:"smooth",block:"start"});return{text:"Here you go."}}
+    pendScroll=sel;location.hash="#/home";return{text:"Taking you to the home page and scrolling there."}}
+  const pg=lo.match(/\b(open|go to|take me to|show me)\s+(?:the\s+)?(home|library|blog|privacy|terms)\b/);
+  if(pg){const m={home:"#/home",library:"#/library",blog:"#/blog",privacy:"#/privacy",terms:"#/terms"};location.hash=m[pg[2]];return{text:"Opening "+pg[2]+"."}}
+  for(const b of BOOKS){if(lo.includes(b.title.toLowerCase())&&/\b(open|read|take|show|go)\b/.test(lo)){location.hash="#/book/"+b.id;return{text:"Opening “"+b.title+"”."}}}
+  for(const [k,c] of Object.entries(CATS)){const nm=c.n.toLowerCase().replace(/ 18\+/,"").split(" ")[0];if(nm&&lo.includes(nm)&&/\b(open|go to|take me|show me|browse)\b/.test(lo)){location.hash="#/cat/"+k;return{text:"Opening "+c.n+"."}}}
+  if(/\b(surprise|random|anything)\b/.test(lo)){const pool=BOOKS.filter(ok);if(!pool.length)return{text:"There are no stories yet."};const b=pool[Math.floor(Math.random()*pool.length)];location.hash="#/book/"+b.id;return{text:"How about “"+b.title+"”? Opening it now."}}
+  const cats=[];MOODS.forEach(([re,k])=>{if(re.test(lo)&&CATS[k])cats.push(k)});
+  Object.entries(CATS).forEach(([k,c])=>{if(c.custom&&lo.includes(c.n.toLowerCase()))cats.push(k)});
+  const words=lo.replace(/[^a-z0-9\s]/g," ").split(/\s+/).filter(w=>w.length>2&&!STOP.has(w));
+  const ranked=BOOKS.filter(ok).map(b=>({b,s:sgScore(b,words,cats)})).filter(x=>x.s>0).sort((a,b)=>b.s-a.s).slice(0,3);
+  if(!ranked.length)return{text:"I could not match that. Tell me a feeling, such as sad, funny, romantic or mysterious, or say “surprise me”."};
+  return{text:cats.length?"These fit that mood:":"These look closest to what you described:",links:ranked.map(x=>({t:x.b.title+" · "+C(x.b).n,h:"#/book/"+x.b.id}))}}
+async function sgAsk(msg){
+  msg=msg.trim().slice(0,200);if(!msg)return;sgAdd("u",msg);
+  {const w=rl("guide",8,60000);if(w){sgAdd("b","You are sending messages quickly. Please wait "+w+" seconds.");return}}
+  if(AI_ENDPOINT&&!rl("ai",6,60000)){try{const ctl=new AbortController(),tm=setTimeout(()=>ctl.abort(),12000);
+      const r=await fetch(AI_ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json"},signal:ctl.signal,
+        body:JSON.stringify({message:msg,catalog:BOOKS.filter(b=>b.cat!=="mature"||openMature()).map(b=>({id:b.id,title:b.title,category:C(b).n,desc:b.desc.slice(0,160)}))})});
+      clearTimeout(tm);if(!r.ok)throw 0;const j=await r.json();
+      const picks=(Array.isArray(j.picks)?j.picks:[]).map(byId).filter(b=>b&&(b.cat!=="mature"||openMature())).slice(0,3);
+      const act=j.action&&typeof j.action==="object"?j.action:null;
+      sgAdd("b",String(j.reply||"Here are some ideas.").slice(0,600),picks.map(b=>({t:b.title+" · "+C(b).n,h:"#/book/"+b.id})));
+      if(act&&act.type==="go"&&/^#\/(home|library|blog|privacy|terms|cat\/[a-z0-9-]+|book\/[a-z0-9-]+)$/.test(String(act.target)))location.hash=act.target;
+      if(act&&act.type==="scroll"&&SCROLLS.hasOwnProperty(act.target)){const sel=SCROLLS[act.target];if(sel&&document.querySelector(sel))document.querySelector(sel).scrollIntoView({behavior:"smooth"});else if(!sel)scrollTo({top:act.target==="top"?0:document.body.scrollHeight,behavior:"smooth"})}
+      return}catch(e){/* fall back to built-in suggestions */}}
+  const r=sgLocal(msg);sgAdd("b",r.text,r.links)}
+(function(){const btn=$("sgBtn"),p=$("sgP"),f=$("sgF");if(!btn||!p||!f)return;
+  const toggle=on=>{p.classList.toggle("on",on);btn.setAttribute("aria-expanded",p.classList.contains("on")?"true":"false");if(p.classList.contains("on")){if(!$("sgM").children.length)sgAdd("b","Hi! Tell me how you feel and I will suggest a story, or ask me to open a page or scroll somewhere.");$("sgI").focus()}};
+  btn.addEventListener("click",()=>toggle());$("sgX").addEventListener("click",()=>toggle(false));
+  f.addEventListener("submit",e=>{e.preventDefault();const i=$("sgI"),v=i.value;i.value="";sgAsk(v)});
+  document.querySelectorAll(".qr button").forEach(b=>b.addEventListener("click",()=>sgAsk(b.dataset.q)));
+  addEventListener("keydown",e=>{if(e.key==="Escape")toggle(false)})})();
+
+/* ============ SEO (per-route meta + structured data) ============ */
+function setMeta(sel,attr,val){let e=document.querySelector(sel);if(!e){e=document.createElement("meta");const m=sel.match(/\[([\w:]+)="([^"]+)"\]/);if(m)e.setAttribute(m[1],m[2]);document.head.appendChild(e)}e.setAttribute(attr,val)}
+function seoRoute(v,s){
+  let t=SITE_NAME+" · Original stories to read and listen to",d="Read and listen to original stories and novels in every mood: romance, mystery, business, casual, sad and mature. Free chapters with mood-matched voice narration.",ld=null,robots="index,follow";
+  const cut=x=>String(x||"").replace(/\s+/g," ").slice(0,155);
+  if(v==="cat"&&hasCat(s[1])){const c=CATS[s[1]],l=BOOKS.filter(b=>b.cat===s[1]).map(b=>b.title).slice(0,4).join(", ");t=c.n+" stories and novels · "+SITE_NAME;d=cut("Read and listen to "+c.n.toLowerCase()+" stories. "+l);if(s[1]==="mature")robots="noindex,follow"}
+  else if(v==="book"||v==="read"){const b=byId(s[1]);if(b){t=b.title+" by "+b.author.replace(/\s*\(.*\)/,"")+" · "+SITE_NAME;d=cut(b.desc);if(b.cat==="mature")robots="noindex,follow";
+    ld={"@context":"https://schema.org","@type":"Book","name":b.title,"author":{"@type":"Person","name":b.author.replace(/\s*\(.*\)/,"")},"description":cut(b.desc),"genre":C(b).n,"inLanguage":"en"};if(v==="read")robots="noindex,follow"}}
+  else if(v==="blog"){t="Blog · "+SITE_NAME;d="Short reads about reading, listening and choosing your next story."}
+  else if(v==="blog"&&s[1]){}
+  if(v==="blog"&&s[1]){const p=byBlog(s[1]);if(p){t=p.title+" · "+SITE_NAME;d=cut(p.desc);ld={"@context":"https://schema.org","@type":"BlogPosting","headline":p.title,"datePublished":p.date,"description":cut(p.desc),"publisher":{"@type":"Organization","name":SITE_NAME}}}}
+  else if(v==="privacy"||v==="terms"){t=LEGAL[v].title+" · "+SITE_NAME;d=cut(LEGAL[v].desc)}
+  else if(v==="search"||v==="admin"||v==="library")robots="noindex,follow";
+  if(v==="home")ld={"@context":"https://schema.org","@type":"WebSite","name":SITE_NAME,"description":d};
+  document.title=t;setMeta('meta[name="description"]',"content",d);setMeta('meta[name="robots"]',"content",robots);
+  setMeta('meta[property="og:title"]',"content",t);setMeta('meta[property="og:description"]',"content",d);setMeta('meta[property="og:type"]',"content",v==="book"?"book":"website");setMeta('meta[name="twitter:card"]',"content","summary");
+  if(/^https?:/.test(location.protocol)){let l=document.querySelector('link[rel="canonical"]');if(!l){l=document.createElement("link");l.rel="canonical";document.head.appendChild(l)}l.href=location.origin+location.pathname;setMeta('meta[property="og:url"]',"content",l.href)}
+  let e=document.getElementById("ld");if(ld){if(!e){e=document.createElement("script");e.type="application/ld+json";e.id="ld";document.head.appendChild(e)}e.textContent=JSON.stringify(ld).replace(/</g,"\\u003c")}else if(e)e.remove()}
+
+/* ============ ROUTER ============ */
+function route(){
+  ttsStop(true);
+  const [path]=(location.hash||"#/home").slice(2).split("?"),s=path.split("/"),v=s[0]||"home";let h="",theme="candy",act="home";
+  if(v==="home"){h=vHome()}
+  else if(v==="cat"){const c=hasCat(s[1])?CATS[s[1]]:null;theme=c?c.t:"candy";act=s[1];h=vCat(s[1])}
+  else if(v==="book"){const b=byId(s[1]);if(b){theme=C(b).t;act=b.cat}h=vBook(s[1])}
+  else if(v==="read"){const b=byId(s[1]);if(b){theme=C(b).t;act=b.cat}h=vRead(s[1],s[2])}
+  else if(v==="admin"){act="";h=vAdmin()}
+  else if(v==="privacy"||v==="terms"){act="";h=vLegal(v)}
+  else if(v==="blog"){act="";h=s[1]?vPost(s[1]):vBlog()}
+  else if(v==="search"){act="";h=vSearch(safeDec(s.slice(1).join("/")).slice(0,80))}
+  else if(v==="library"){act="";h=vLibrary()}
+  else h=v404();
+  if(cloudLoading&&["home","cat","book","read","search"].includes(v))h=LOADING;
+  applyTheme(theme);catBar(act);$("app").innerHTML=h;
+  if(v!=="read"||TT.auto)scrollTo({top:0});bindTilt();onScroll();if(v==="read"&&TT.auto){TT.auto=false;ttsOpen(true)}if(pendScroll){const q=pendScroll;pendScroll=null;setTimeout(()=>{const e=document.querySelector(q);if(e)e.scrollIntoView({behavior:"smooth",block:"start"})},150)}
+  seoRoute(v,s);
+}
+addEventListener("hashchange",route);addEventListener("scroll",onScroll,{passive:true});
+route();
+if(CLOUD)cloudInit();
+</script>
+</body>
+</html>
