@@ -313,7 +313,7 @@ function vBook(id){
   <div class="det"><div class="big"><i>${b.g||C(b).g}</i><b>${esc(b.title)}</b><span style="font-size:.75rem;letter-spacing:.14em;margin-top:10px">${esc(b.author.replace(/\s*\(.*\)/,"").toUpperCase())}</span></div>
   <div><span class="ch">${C(b).n}</span><h1 style="font-size:2.2rem;margin:12px 0 4px">${esc(b.title)}</h1><div class="meta">by ${esc(b.author)} · ${b.ch.length} chapters · ${b.status}</div>
   <p style="margin:16px 0;max-width:58ch">${esc(b.desc)}</p>
-  <div class="acts"><a class="bt" href="#/read/${id}/${p?p.ch:1}">${p?"Continue reading":"Read now"}</a><button class="bt alt" onclick="toggleFav('${id}')">${fav?"♥ Saved":"♡ Save"}</button></div>
+  <div class="acts"><a class="bt" href="#/read/${id}/${p?p.ch:1}">${p?"Continue reading":"Read now"}</a><button class="bt alt" onclick="toggleFav('${id}')">${fav?"♥ Saved":"♡ Save"}</button>${b.cat!=="mature"?`<a class="bt" href="/book/${id}/hi/" style="background:${(TH[C(b).t]||TH.candy).a2};border-color:${(TH[C(b).t]||TH.candy).a2}">🇮🇳 हिंदी में पढ़ें</a>`:""}</div>
   <h2 style="font-size:1.3rem;margin-top:30px">Chapters</h2>
   ${b.ch.map((c,i)=>`<a class="cd chap" href="#/read/${id}/${i+1}"><span class="n">${String(i+1).padStart(2,"0")}</span><span class="g">${esc(c.t)}</span><span class="ch q">Read</span></a>`).join("")}
   </div></div></div>`}
