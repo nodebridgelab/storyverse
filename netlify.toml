@@ -1,2 +1,9 @@
 [build]
   publish = "."
+  functions = "netlify/functions"
+
+[[headers]]
+  for = "/ads.txt"
+  [headers.values]
+    Content-Type = "text/plain"
+    Cache-Control = "public, max-age=86400"
